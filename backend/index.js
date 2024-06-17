@@ -1,1 +1,2 @@
-console.log("Index")
+console.log("Index");
+console.log("TEst Buddy");
