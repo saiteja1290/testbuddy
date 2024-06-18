@@ -13,7 +13,6 @@ function App() {
       <Route path='/adminsignup' element={<AdminSignup />} />
       <Route path='/studentlogin' element={<StudentLogin />} />
       <Route path='/adminlogin' element={<AdminLogin />} />
-      <Route path='/teacherdashboar' element={<Home />} />
     </Routes>
   )
 }
