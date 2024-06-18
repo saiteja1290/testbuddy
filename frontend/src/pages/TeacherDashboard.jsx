@@ -1,5 +1,5 @@
 import React from 'react'
-//Teacher can set questions, set room, view results - create 3 seperate buttons
+//Teacher can set questions, set exam, view results - create 3 seperate buttons
 const TeacherDashboard = () => {
     const handleSetQuestions = () => {
         console.log('Set Questions button clicked');

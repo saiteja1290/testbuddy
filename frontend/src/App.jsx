@@ -4,6 +4,7 @@ import AdminSignup from './pages/AdminSignup';
 import StudentSignup from './pages/StudentSignup';
 import StudentLogin from './pages/StudentLogin';
 import AdminLogin from './pages/AdminLogin';
+import QuestionSetting from './pages/QuestionSetting';
 function App() {
 
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path='/adminsignup' element={<AdminSignup />} />
       <Route path='/studentlogin' element={<StudentLogin />} />
       <Route path='/adminlogin' element={<AdminLogin />} />
+       <Route path='/QuestionSetting' element={<QuestionSetting/>} />
     </Routes>
   )
 }
