@@ -1,10 +1,17 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     return (
-        <h1 className="text-3xl font-bold underline">
-            Hello world!
-        </h1>
+        <>
+            <div className='flex space-x-3.5 justify-center items-center min-h-screen '>
+                <Link to='/studentlogin'>StudentLogin</Link>
+                <Link to='/studentsignup'>StudentSignup</Link>
+                <Link to='/adminlogin'>AdminLogin</Link>
+                <Link to='/adminsignup'>adminsignup</Link>
+            </div>
+            
+        </>
     )
 }
 
