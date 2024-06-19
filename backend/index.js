@@ -1,22 +1,28 @@
-import express, { response } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes/auth.route.js";
 
 dotenv.config();
-//express
+
 const app = express();
-// const cors = require('cors');
+
 app.use(express.json());
 app.use(cors());
+
 app.get("/", (req, res) => {
   console.log(req);
-  return response.status(200).send("Welcome to MERN stack Project");
+  res.status(200).send("Welcome to MERN stack Project");
 });
+
 app.use("/api/user", router);
+
 mongoose
-  .connect(process.env.mongo_url)
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("App connected to database");
     app.listen(8080, () => {
@@ -24,5 +30,5 @@ mongoose
     });
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error.message);
   });
