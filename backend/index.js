@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 });
 
 // app.use('/books', booksRoute)
-
+app.use('/examschema')
 
 
 //Route to save a new book
