@@ -56,11 +56,13 @@ const StudentSignup = () => {
                         </button>
                     </div>
                 </form>
-
-                <p className="mt-10 text-center text-sm text-gray-500">
-                    {' '}
-                    <Link to='/studentlogin'>Already a Member?</Link>
-                </p>
+                <div className='flex gap-2 mt-5'>
+                    <p> Have an account?</p>
+                    
+                    <Link to={'/studentlogin'}>
+                    <span className='text-blue-700'>Sign in</span>
+                    </Link>
+                </div>
             </div>
         </div>
     )
