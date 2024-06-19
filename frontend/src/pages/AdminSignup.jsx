@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const AdminSignup = () => {
     return (
@@ -32,7 +32,6 @@ const AdminSignup = () => {
                             <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                 Password
                             </label>
-
                         </div>
                         <div className="mt-2">
                             <input
@@ -64,7 +63,7 @@ const AdminSignup = () => {
                 </p>
             </div>
         </div>
-    )
+    );
 }
 
-export default AdminSignup
+export default AdminSignup;
