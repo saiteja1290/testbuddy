@@ -9,7 +9,7 @@ const QuestionSetting = () => {
     const generateQuestionForms = () => {
         const newQuestions = [];
         for (let i = 1; i <= numQuestions; i++) {
-            newQuestions.push({ question: '', testCases: '', answers: '' });
+            newQuestions.push({ questionText: '', testCases: '', answers: '' });
         }
         setQuestions(newQuestions);
     };
@@ -88,8 +88,8 @@ const QuestionSetting = () => {
                                     </label>
                                     <textarea
                                         id={`question${index}`}
-                                        value={questions[index].question}
-                                        onChange={(e) => handleInputChange(index, 'question', e.target.value)}
+                                        value={questions[index].questionText}
+                                        onChange={(e) => handleInputChange(index, 'questionText', e.target.value)}
                                         rows="2"
                                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                         placeholder={`Enter question ${index + 1}...`}
