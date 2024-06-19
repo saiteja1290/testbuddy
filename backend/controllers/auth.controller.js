@@ -3,7 +3,53 @@ import jwt from "jsonwebtoken";
 import AdminUser from "../models/AdminSchema.js";
 import StudentUser from "../models/StudentSchema.js";
 import bcryptjs from "bcryptjs";
+// import ExamModel from "../models/examSchema.js";
+import Question from "../models/QuestionSchema.js";
 
+
+export const questions_teda = async (req, res) => {
+  const { roomId, numQuestions, studentQuestions, questions } = req.body;
+
+  // Validation of request body
+  if (!roomId || typeof numQuestions !== 'number' || typeof studentQuestions !== 'number' || !Array.isArray(questions)) {
+    return res.status(400).send({ message: "Invalid input data" });
+  }
+
+  if (questions.length !== numQuestions) {
+    return res.status(400).send({ message: "Number of questions does not match the numQuestions field" });
+  }
+
+  // Validate each question
+  for (const q of questions) {
+    if (!q.questionText || !q.testCases || !q.answers) {
+      console.log(q)
+      return res.status(400).send({ message: "Each question must have questionText, testCases, and answers" });
+    }
+  }
+
+  try {
+    // Create a new exam instance
+    const newExam = new Question({
+      roomId,
+      numQuestions,
+      studentQuestions,
+      questions: questions.map(q => ({
+        questionText: q.questionText,
+        testCases: q.testCases,
+        answers: q.answers
+      }))
+    });
+
+    // Save the exam to the database
+    await newExam.save();
+
+    // Send a success response
+    res.status(201).send({ message: "Exam created successfully", exam: newExam });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};
 export const adminsignup = async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -35,9 +81,9 @@ export const adminsignin = async (req, res) => {
 };
 
 export const stundetsignup = async (req, res) => {
-  const { email, password } = req.body;
+  const { rollnumber, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new StudentUser({ email, password: hashedPassword });
+  const newUser = new StudentUser({ rollnumber, password: hashedPassword });
   try {
     await newUser.save();
     res.status(201).json("User created successfully!");
@@ -47,9 +93,9 @@ export const stundetsignup = async (req, res) => {
 };
 
 export const studentsignin = async (req, res) => {
-  const { email, password } = req.body;
+  const { rollnumber, password } = req.body;
   try {
-    const validUser = await StudentUser.findOne({ email });
+    const validUser = await StudentUser.findOne({ rollnumber });
     if (!validUser) return next(errorHandler(404, "User not found!"));
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, "Wrong credentials!"));
@@ -63,3 +109,4 @@ export const studentsignin = async (req, res) => {
     console.log(error.message);
   }
 };
+

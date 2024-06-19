@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes/auth.route.js";
+// import exam from "./routes/examschemaroute.js";
+// import { Exam } from "./models/examSchema.js";
 
 dotenv.config();
 //express
@@ -14,7 +16,9 @@ app.get("/", (req, res) => {
     console.log(req);
     return response.status(200).send("Welcome to MERN stack Project");
 });
-
+// routes
+app.use('/api/user', router);
+// app.use('/api/quesiton', exam);
 // app.use('/books', booksRoute)
 
 

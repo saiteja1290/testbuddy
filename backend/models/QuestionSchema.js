@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-// Define the schema for a question
+import mongoose, { mongo } from "mongoose";
 const questionSchema = new mongoose.Schema({
     questionText: {
         type: String,
@@ -17,7 +15,7 @@ const questionSchema = new mongoose.Schema({
 });
 
 // Define the schema for the exam settings
-const examSchema = new mongoose.Schema({
+const ExamSchema = new mongoose.Schema({
     roomId: {
         type: String,
         required: true
@@ -33,7 +31,5 @@ const examSchema = new mongoose.Schema({
     questions: [questionSchema]
 });
 
-// Create the model for the exam
-export const Exam = mongoose.model('Exam', examSchema);
-
-module.exports = Exam;
+const Question = mongoose.model("Questions", ExamSchema);
+export default Question;
