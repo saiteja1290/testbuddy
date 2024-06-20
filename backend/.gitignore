@@ -3,7 +3,7 @@ node_modules
 
 # Node.js
 node_modules/
-
+temp/
 # Logs
 logs
 *.log
