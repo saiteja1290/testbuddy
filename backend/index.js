@@ -28,7 +28,6 @@ const option = { stats: true };
 init(option);
 
 app.get("/", (req, res) => {
-  console.log(req);
   return res.status(200).send("Welcome to MERN stack Project");
 });
 
@@ -51,41 +50,37 @@ app.get("/api/question", (req, res) => {
 
 // Route to compile and run code
 app.post("/compilecode", (req, res) => {
-  const { code, lang, inputRadio } = req.body;
-  const input = req.body.input || "";
+  const { code, lang, input } = req.body;
 
   let envData = { OS: "windows" };
 
+  console.log(`Received code: ${code}`);
+  console.log(`Language: ${lang}`);
+  console.log(`Input: ${input}`);
+
+  const callback = (data) => {
+    console.log(`Compiler response: ${JSON.stringify(data)}`);
+    res.send(data.error ? { error: data.error } : { output: data.output });
+  };
+
   if (lang === "C" || lang === "C++") {
     envData.cmd = "g++";
-    if (inputRadio === "true") {
-      compileCPPWithInput(envData, code, input, (data) => {
-        res.send(data);
-      });
+    if (input) {
+      compileCPPWithInput(envData, code, input, callback);
     } else {
-      compileCPP(envData, code, (data) => {
-        res.send(data.error ? data.error : data.output);
-      });
+      compileCPP(envData, code, callback);
     }
   } else if (lang === "Java") {
-    if (inputRadio === "true") {
-      compileJavaWithInput(envData, code, input, (data) => {
-        res.send(data);
-      });
+    if (input) {
+      compileJavaWithInput(envData, code, input, callback);
     } else {
-      compileJava(envData, code, (data) => {
-        res.send(data.error ? data.error : data.output);
-      });
+      compileJava(envData, code, callback);
     }
   } else if (lang === "Python") {
-    if (inputRadio === "true") {
-      compilePythonWithInput(envData, code, input, (data) => {
-        res.send(data);
-      });
+    if (input) {
+      compilePythonWithInput(envData, code, input, callback);
     } else {
-      compilePython(envData, code, (data) => {
-        res.send(data);
-      });
+      compilePython(envData, code, callback);
     }
   }
 });
