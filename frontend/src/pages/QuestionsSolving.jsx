@@ -54,7 +54,7 @@ const QuestionSolving = () => {
     axios.post('http://localhost:8080/compilecode', requestData)
       .then(response => {
         const results = response.data.results;
-        const formattedOutput = results.map((result, index) => 
+        const formattedOutput = results.map((result, index) =>
           `Test Case ${index + 1}:\nInput: ${result.input}\nExpected Output: ${result.expectedOutput}\nActual Output: ${result.actualOutput}\nPassed: ${result.passed}\n\n`
         ).join('');
         setOutput(formattedOutput);
