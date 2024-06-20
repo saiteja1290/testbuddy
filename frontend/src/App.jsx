@@ -16,9 +16,9 @@ function App() {
       <Route path='/adminsignup' element={<AdminSignup />} />
       <Route path='/studentlogin' element={<StudentLogin />} />
       <Route path='/adminlogin' element={<AdminLogin />} />
-      <Route path='/QuestionSetting' element={<QuestionSetting/>} />
-      <Route path='/teacherdashboard' element={<TeacherDashboard/>} />
-      <Route path='/QuestionsSolving' element={<QuestionsSolving/>} />
+      <Route path='/QuestionSetting' element={<QuestionSetting />} />
+      <Route path='/teacherdashboard' element={<TeacherDashboard />} />
+      <Route path='/questionsolving' element={<QuestionsSolving />} />
     </Routes>
   )
 }
