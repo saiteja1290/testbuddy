@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 const StudentLogin = () => {
+    const [rollNumber, setRollNumber] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/api/user/studentlogin', {
+                rollnumber: rollNumber,
+                password
+            });
+            console.log(response.data);
+            alert('Login successful!');
+            // Save the token and user information in localStorage
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('user', JSON.stringify(response.data));
+            navigate('/studentdashboard'); // Redirect to the dashboard or another page
+        } catch (error) {
+            console.error(error);
+            setErrorMessage('Invalid roll number or password');
+        }
+    };
+
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -10,18 +36,20 @@ const StudentLogin = () => {
             </div>
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" action="#" method="POST">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                            Email address
+                        <label htmlFor="rollNumber" className="block text-sm font-medium leading-6 text-gray-900">
+                            Roll Number
                         </label>
                         <div className="mt-2">
                             <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
+                                id="rollNumber"
+                                name="rollNumber"
+                                type="number"
+                                autoComplete="rollNumber"
                                 required
+                                value={rollNumber}
+                                onChange={(e) => setRollNumber(e.target.value)}
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
@@ -32,7 +60,6 @@ const StudentLogin = () => {
                             <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                                 Password
                             </label>
-
                         </div>
                         <div className="mt-2">
                             <input
@@ -41,10 +68,18 @@ const StudentLogin = () => {
                                 type="password"
                                 autoComplete="current-password"
                                 required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
+
+                    {errorMessage && (
+                        <div className="text-red-500 text-sm">
+                            {errorMessage}
+                        </div>
+                    )}
 
                     <div>
                         <button
@@ -55,16 +90,16 @@ const StudentLogin = () => {
                         </button>
                     </div>
                 </form>
-
-                <p className="mt-10 text-center text-sm text-gray-500">
-                    Not a member?{' '}
-                    <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                        Start a 14 day free trial
-                    </a>
-                </p>
+                <div className='flex gap-2 mt-5'>
+                    <p> Don't Have an account?</p>
+                    <Link to={'/studentsignup'}>
+                        <span className='text-blue-700'>Sign in</span>
+                    </Link>
+                </div>
+                
             </div>
         </div>
     )
 }
 
-export default StudentLogin
+export default StudentLogin;

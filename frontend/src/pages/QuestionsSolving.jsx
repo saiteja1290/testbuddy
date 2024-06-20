@@ -6,7 +6,6 @@ import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/python/python';
-// 'codemirror/mode/java/java' is often under 'clike' so let's use 'clike' instead.
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/xml/xml';
 
@@ -15,14 +14,12 @@ const QuestionSolving = () => {
   const [output, setOutput] = useState('');
   const [question, setQuestion] = useState('');
   const [testCases, setTestCases] = useState([]);
+  const [userTestCases, setUserTestCases] = useState('');
   const [lang, setLang] = useState('Python');
-  const [inputRadio, setInputRadio] = useState(false);
 
   useEffect(() => {
-    // Fetch question and test cases from backend
     axios.get('http://localhost:8080/api/question')
       .then(response => {
-        console.log('Response data:', response.data); // Debugging line
         setQuestion(response.data.question);
         setTestCases(response.data.testCases);
       })
@@ -33,11 +30,35 @@ const QuestionSolving = () => {
     const requestData = {
       code,
       lang,
-      inputRadio: inputRadio.toString(),
+      input: userTestCases,
     };
 
+    console.log('Sending request data:', requestData);
+
     axios.post('http://localhost:8080/compilecode', requestData)
-      .then(response => setOutput(response.data.output))
+      .then(response => {
+        console.log('Response received:', response.data);
+        setOutput(response.data.output || `Error: ${response.data.error}`);
+      })
+      .catch(error => setOutput(`Error: ${error.message}`));
+  };
+
+  const handleSubmitCode = () => {
+    const requestData = {
+      code,
+      lang,
+    };
+
+    console.log('Sending submit request data:', requestData);
+
+    axios.post('http://localhost:8080/compilecode', requestData)
+      .then(response => {
+        const results = response.data.results;
+        const formattedOutput = results.map((result, index) =>
+          `Test Case ${index + 1}:\nInput: ${result.input}\nExpected Output: ${result.expectedOutput}\nActual Output: ${result.actualOutput}\nPassed: ${result.passed}\n\n`
+        ).join('');
+        setOutput(formattedOutput);
+      })
       .catch(error => setOutput(`Error: ${error.message}`));
   };
 
@@ -63,15 +84,8 @@ const QuestionSolving = () => {
           <div>
             <label className="block mb-2 text-blue-700">Language:</label>
             <select value={lang} onChange={(e) => setLang(e.target.value)} className="block w-full p-2 border border-gray-300 rounded">
-              <option value="C">C</option>
-              <option value="Java">Java</option>
               <option value="Python">Python</option>
             </select>
-          </div>
-          <div>
-            <label className="block mb-2 text-blue-700">Compile With Input:</label>
-            <input type="radio" name="inputRadio" checked={inputRadio === true} onChange={() => setInputRadio(true)} /> Yes
-            <input type="radio" name="inputRadio" checked={inputRadio === false} onChange={() => setInputRadio(false)} className="ml-4" /> No
           </div>
         </div>
 
@@ -90,14 +104,32 @@ const QuestionSolving = () => {
           />
         </div>
 
-        <button
-          className="w-full py-2 px-4 mt-4 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 mb-4"
-          onClick={handleRunCode}
-        >
-          Run Code
-        </button>
+        <div className="mb-4">
+          <label className="block mb-2 text-blue-700">Test Cases Input:</label>
+          <textarea
+            value={userTestCases}
+            onChange={(e) => setUserTestCases(e.target.value)}
+            className="block w-full p-2 border border-gray-300 rounded"
+            rows="4"
+          />
+        </div>
 
-        <div className="bg-white p-4 border border-blue-300 rounded-lg shadow-inner">
+        <div className="flex justify-between">
+          <button
+            className="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+            onClick={handleRunCode}
+          >
+            Run Code
+          </button>
+          <button
+            className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            onClick={handleSubmitCode}
+          >
+            Submit Code
+          </button>
+        </div>
+
+        <div className="bg-white p-4 border border-blue-300 rounded-lg shadow-inner mt-4">
           <h3 className="text-xl font-semibold text-blue-700 mb-2">Output:</h3>
           <pre className="whitespace-pre-wrap text-gray-900 code-output">{output}</pre>
         </div>
