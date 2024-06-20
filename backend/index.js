@@ -51,8 +51,11 @@ app.get("/api/question", (req, res) => {
 
 // Route to compile and run code
 app.post("/compilecode", (req, res) => {
+  console.log(req.body)
   const { code, lang, inputRadio } = req.body;
+
   const input = req.body.input || "";
+  console.log(input)
 
   let envData = { OS: "windows" };
 
@@ -80,6 +83,8 @@ app.post("/compilecode", (req, res) => {
   } else if (lang === "Python") {
     if (inputRadio === "true") {
       compilePythonWithInput(envData, code, input, (data) => {
+        // res.send(input);
+        console.log(inputRadio);
         res.send(data);
       });
     } else {
