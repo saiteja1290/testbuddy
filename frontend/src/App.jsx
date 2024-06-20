@@ -7,6 +7,7 @@ import AdminLogin from './pages/AdminLogin';
 import QuestionSetting from './pages/QuestionSetting';
 import TeacherDashboard from './pages/TeacherDashboard';
 import QuestionsSolving from './pages/QuestionsSolving';
+import StudentDashboard from './pages/StudentDashboard';
 function App() {
 
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route path='/QuestionSetting' element={<QuestionSetting />} />
       <Route path='/teacherdashboard' element={<TeacherDashboard />} />
       <Route path='/questionsolving' element={<QuestionsSolving />} />
+       <Route path='/studentdashboard' element={<StudentDashboard />} />
     </Routes>
   )
 }
