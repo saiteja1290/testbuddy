@@ -84,8 +84,6 @@ const QuestionSolving = () => {
           <div>
             <label className="block mb-2 text-blue-700">Language:</label>
             <select value={lang} onChange={(e) => setLang(e.target.value)} className="block w-full p-2 border border-gray-300 rounded">
-              <option value="C">C</option>
-              <option value="Java">Java</option>
               <option value="Python">Python</option>
             </select>
           </div>

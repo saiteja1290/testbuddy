@@ -35,21 +35,7 @@ export const compilethecode = (req, res) => {
         console.log(`Compiler response: ${JSON.stringify(data)}`);
         res.send(data.error ? { error: data.error } : { output: data.output });
     };
-
-    if (lang === "C" || lang === "C++") {
-        envData.cmd = "g++";
-        if (input) {
-            compileCPPWithInput(envData, code, input, callback);
-        } else {
-            compileCPP(envData, code, callback);
-        }
-    } else if (lang === "Java") {
-        if (input) {
-            compileJavaWithInput(envData, code, input, callback);
-        } else {
-            compileJava(envData, code, callback);
-        }
-    } else if (lang === "Python") {
+    if (lang === "Python") {
         if (input) {
             compilePythonWithInput(envData, code, input, callback);
         } else {
