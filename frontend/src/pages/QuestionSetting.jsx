@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const QuestionSetting = () => {
     const [numQuestions, setNumQuestions] = useState(0);
@@ -20,10 +21,21 @@ const QuestionSetting = () => {
         setQuestions(newQuestions);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Submit form logic here
-        console.log({ roomId, questions, studentQuestions });
+        try {
+            const response = await axios.post('http://localhost:8080/api/user/questions', {
+                roomId,
+                numQuestions,
+                studentQuestions,
+                questions
+            });
+            console.log(response.data);
+            alert('Exam created successfully');
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred while creating the exam');
+        }
     };
 
     return (

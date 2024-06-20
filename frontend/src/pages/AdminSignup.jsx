@@ -80,11 +80,6 @@ const AdminSignup = () => {
                         </button>
                     </div>
                 </form>
-            <p className="mt-10 text-center text-sm text-gray-500">
-                    Have an account?{' '}
-                    <Link to="/adminlogin" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                        Sign Up
-                    </Link>
                 </p>
                
             </div>
