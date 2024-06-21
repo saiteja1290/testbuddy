@@ -9,7 +9,8 @@ import {
   flush,
 } from "compilex";
 import { compilethecode, fullstat_controller, sample_question } from "./controllers/compiler.controller.js";
-
+import { getquestionset } from "./controllers/auth.controller.js";
+import { getQuestionsByRoomId } from "./controllers/compiler.controller.js";
 dotenv.config();
 //express
 const app = express();
@@ -37,6 +38,9 @@ app.post("/compilecode", compilethecode);
 // Route to get full statistics of the compiler
 app.get("/fullStat", fullstat_controller);
 
+router.get('/questions/:roomID', getQuestionsByRoomId);
+//Route to get questions from roomid
+// app.get("/api/getquestionset", router)
 //Mongoose connection
 mongoose
   .connect(process.env.mongo_url)

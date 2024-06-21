@@ -122,3 +122,24 @@ export const studentsignin = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const getquestionset = async (req, res) => {
+  const { roomId } = req.query;
+
+  if (!roomId) {
+    return res.status(400).send({ message: "Room ID is required" });
+  }
+
+  try {
+    const exam = await Question.findOne({ roomId });
+
+    if (!exam) {
+      return res.status(404).send({ message: "Exam not found" });
+    }
+
+    res.status(200).send({ message: "Exam retrieved successfully", exam });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+};

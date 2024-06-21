@@ -49,3 +49,17 @@ export const fullstat_controller = (req, res) => {
         res.send(data);
     });
 }
+import Question from "../models/QuestionSchema.js";
+
+export const getQuestionsByRoomId = async (req, res) => {
+    try {
+        const { roomID } = req.params;
+        const exam = await Question.findOne({ roomId: roomID });
+        if (!exam) {
+            return res.status(404).json({ message: 'No exam found with the provided room ID' });
+        }
+        res.status(200).json({ questions: exam.questions });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
