@@ -4,16 +4,24 @@ import {
   adminsignin,
   stundetsignup,
   studentsignin,
-  questions_teda,
   getquestionset,
 } from "../controllers/auth.controller.js";
+import {
+  createQuestions,
+  getQuestionsByRoomId,
+} from "../controllers/questionController.js";
 
 const router = express.Router();
-router.post("/studentsignup", stundetsignup);
-router.post("/studentlogin", studentsignin);
+
+// Auth routes
 router.post("/adminsignup", adminsignup);
-router.post("/adminlogin", adminsignin);
-router.post("/questions", questions_teda);
-router.get("/getquestionsset", getquestionset);
+router.post("/adminsignin", adminsignin);
+router.post("/studentsignup", stundetsignup);
+router.post("/studentsignin", studentsignin);
+
+// Question routes
+router.post("/questions", createQuestions);
+router.get("/questions/:roomID", getQuestionsByRoomId);
+router.get("/getquestionset", getquestionset);
 
 export default router;

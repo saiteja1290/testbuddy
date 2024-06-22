@@ -28,7 +28,7 @@ const QuestionSolving = () => {
     const requestData = {
       code: code[questionId] || '',
       lang,
-      input: userTestCases[questionId] || '',
+      input: questions.find(q => q._id === questionId).testCases[0].input || '',
     };
 
     axios.post('http://localhost:8080/compilecode', requestData)
@@ -48,6 +48,7 @@ const QuestionSolving = () => {
     const requestData = {
       code: code[questionId] || '',
       lang,
+      testCases: questions.find(q => q._id === questionId).testCases,
     };
 
     axios.post('http://localhost:8080/compilecode', requestData)
@@ -90,11 +91,12 @@ const QuestionSolving = () => {
           <h2 className="text-xl font-semibold text-blue-700">{question.questionText}</h2>
           <p className="text-gray-900 mb-4">{question.description}</p>
           <h3 className="text-lg font-semibold text-blue-700">Test Cases:</h3>
-          <ul className="list-disc list-inside mb-4">
-            {question.testCases.split('\n').map((testCase, idx) => (
-              <li key={idx}>{testCase}</li>
-            ))}
-          </ul>
+          {question.testCases.length > 0 && (
+            <div>
+              <p>Input: {question.testCases[0].input}</p>
+              <p>Expected Output: {question.testCases[0].expectedOutput}</p>
+            </div>
+          )}
 
           <div className="mb-4 flex justify-between items-center">
             <div>
@@ -128,7 +130,7 @@ const QuestionSolving = () => {
           <div className="mb-4">
             <label className="block mb-2 text-blue-700">Test Cases Input:</label>
             <textarea
-              value={userTestCases[question._id] || ''}
+              value={userTestCases[question._id] || question.testCases[0]?.input || ''}
               onChange={(e) => setUserTestCases(prevTestCases => ({
                 ...prevTestCases,
                 [question._id]: e.target.value
