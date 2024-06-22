@@ -23,23 +23,62 @@ export const sample_question = async (req, res) => {
 };
 
 export const compilethecode = (req, res) => {
-  const { code, lang, input } = req.body;
+  const { code, lang, input, testCases, action } = req.body;
 
   let envData = { OS: "windows" };
 
   console.log(`Received code: ${code}`);
   console.log(`Language: ${lang}`);
   console.log(`Input: ${input}`);
+  console.log(`Action: ${action}`);
 
   const callback = (data) => {
     console.log(`Compiler response: ${JSON.stringify(data)}`);
     res.send(data.error ? { error: data.error } : { output: data.output });
   };
+
   if (lang === "Python") {
-    if (input) {
-      compilePythonWithInput(envData, code, input, callback);
-    } else {
-      compilePython(envData, code, callback);
+    if (action === "run") {
+      // Run code with single input
+      if (input) {
+        compilePythonWithInput(envData, code, input, callback);
+      } else {
+        compilePython(envData, code, callback);
+      }
+    } else if (action === "submit") {
+      // Submit code and check against all test cases
+      let results = [];
+      let testCaseIndex = 0;
+
+      const processTestCase = () => {
+        if (testCaseIndex < testCases.length) {
+          const { input, expectedOutput } = testCases[testCaseIndex];
+          compilePythonWithInput(envData, code, input, (data) => {
+            if (data.error) {
+              results.push({
+                input,
+                expectedOutput,
+                actualOutput: data.error,
+                passed: false,
+              });
+            } else {
+              const actualOutput = data.output.trim();
+              results.push({
+                input,
+                expectedOutput,
+                actualOutput,
+                passed: actualOutput === expectedOutput.trim(),
+              });
+            }
+            testCaseIndex++;
+            processTestCase();
+          });
+        } else {
+          res.send({ results });
+        }
+      };
+
+      processTestCase();
     }
   }
 };
