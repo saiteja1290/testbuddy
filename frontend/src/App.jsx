@@ -8,21 +8,35 @@ import QuestionSetting from './pages/QuestionSetting';
 import TeacherDashboard from './pages/TeacherDashboard';
 import QuestionsSolving from './pages/QuestionsSolving';
 import StudentDashboard from './pages/StudentDashboard';
-function App() {
+import Navbar from './components/Navbar';
+import PrivateRouteTeacher from './components/PrivateRouteTeacher';
+import PrivateRouteStudent from './components/PrivateRouteStudent';
 
+function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/studentsignup' element={<StudentSignup />} />
-      <Route path='/adminsignup' element={<AdminSignup />} />
-      <Route path='/studentlogin' element={<StudentLogin />} />
-      <Route path='/adminlogin' element={<AdminLogin />} />
-      <Route path='/QuestionSetting' element={<QuestionSetting />} />
-      <Route path='/teacherdashboard' element={<TeacherDashboard />} />
-      <Route path='/questionsolving' element={<QuestionsSolving />} />
-       <Route path='/studentdashboard' element={<StudentDashboard />} />
-    </Routes>
-  )
+    <>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/studentsignup' element={<StudentSignup />} />
+        <Route path='/adminsignup' element={<AdminSignup />} />
+        <Route path='/studentlogin' element={<StudentLogin />} />
+        <Route path='/adminlogin' element={<AdminLogin />} />
+
+        {/* Private routes for teachers */}
+        <Route element={<PrivateRouteTeacher />}>
+          <Route path='/QuestionSetting' element={<QuestionSetting />} />
+          <Route path='/teacherdashboard' element={<TeacherDashboard />} />
+        </Route>
+
+        {/* Private routes for students */}
+        <Route element={<PrivateRouteStudent />}>
+          <Route path='/questionsolving' element={<QuestionsSolving />} />
+          <Route path='/studentdashboard' element={<StudentDashboard />} />
+        </Route>
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;

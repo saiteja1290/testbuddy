@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/userSlice';
 
 const StudentLogin = () => {
     const [rollNumber, setRollNumber] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            dispatch(signInStart());
             const response = await axios.post('http://localhost:8080/api/user/studentlogin', {
                 rollnumber: rollNumber,
                 password
@@ -20,9 +24,11 @@ const StudentLogin = () => {
             // Save the token and user information in localStorage
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data));
-            navigate('/studentdashboard'); // Redirect to the dashboard or another page
+            dispatch(signInSuccess({ token: response.data.token, role: 'student' }));
+            navigate('/questionsolving'); // Redirect to the dashboard or another page
         } catch (error) {
             console.error(error);
+            dispatch(signInFailure('Invalid roll number or password'));
             setErrorMessage('Invalid roll number or password');
         }
     };

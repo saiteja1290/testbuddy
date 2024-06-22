@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/userSlice';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            dispatch(signInStart());
             const response = await axios.post('http://localhost:8080/api/user/adminlogin', {
                 email,
                 password
@@ -20,9 +24,11 @@ const AdminLogin = () => {
             // Save the token and user information in localStorage
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('user', JSON.stringify(response.data));
+            dispatch(signInSuccess({ token: response.data.token, role: 'teacher' }));
             navigate('/teacherdashboard'); // Redirect to the dashboard or another page
         } catch (error) {
             console.error(error);
+            dispatch(signInFailure('Invalid email or password'));
             setErrorMessage('Invalid email or password');
         }
     };
