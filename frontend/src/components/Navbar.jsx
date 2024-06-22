@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from '../redux/userSlice';
 
 const Navbar = () => {
-    const { currentUser } = useSelector((state) => state.user);
+    const currentUser = localStorage.getItem('userType');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const Navbar = () => {
     const handleLogout = () => {
         dispatch(signOut());
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem('userType');
         navigate('/');
     };
 
@@ -49,7 +49,9 @@ const Navbar = () => {
                         {currentUser ? (
                             <>
                                 <li>
-                                    <span className="block py-2 px-3 text-gray-100">Logged in as {currentUser.role}</span>
+                                    <span className="block py-2 px-3 text-gray-100">
+                                        {currentUser === 'teacher' ? 'Logged in as Teacher' : 'Logged in as Student'}
+                                    </span>
                                 </li>
                                 <li>
                                     <button onClick={handleLogout} className="block py-2 px-3 text-gray-100 rounded hover:bg-indigo-600 md:hover:bg-transparent md:border-0 md:hover:text-indigo-500 md:p-0 dark:text-gray-100 md:dark:hover:text-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-100 md:dark:hover:bg-transparent">

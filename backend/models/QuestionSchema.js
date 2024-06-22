@@ -1,15 +1,23 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
+
+const testCaseSchema = new mongoose.Schema({
+  input: {
+    type: String,
+    required: true,
+  },
+  expectedOutput: {
+    type: String,
+    required: true,
+  },
+});
+
 const questionSchema = new mongoose.Schema({
   questionText: {
     type: String,
     required: true,
   },
   testCases: {
-    type: String,
-    required: true,
-  },
-  answers: {
-    type: String,
+    type: [testCaseSchema],
     required: true,
   },
 });

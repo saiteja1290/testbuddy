@@ -1,9 +1,10 @@
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const PrivateRouteStudent = () => {
-  const { currentUser } = useSelector((state) => state.user);
-  return currentUser && currentUser.role === 'student' ? <Outlet /> : <Navigate to='/studentlogin' />;
+  const isAuthenticated = localStorage.getItem('token') && localStorage.getItem('userType') === 'student';
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/studentlogin" />;
 };
 
 export default PrivateRouteStudent;
