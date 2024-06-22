@@ -25,48 +25,51 @@ const QuestionSolving = () => {
   };
 
   const handleRunCode = (questionId) => {
-    const requestData = {
-      code: code[questionId] || '',
-      lang,
-      input: questions.find(q => q._id === questionId).testCases[0].input || '',
-    };
-
-    axios.post('http://localhost:8080/compilecode', requestData)
-      .then(response => {
-        setOutput(prevOutput => ({
-          ...prevOutput,
-          [questionId]: response.data.output || `Error: ${response.data.error}`
-        }));
-      })
-      .catch(error => setOutput(prevOutput => ({
-        ...prevOutput,
-        [questionId]: `Error: ${error.message}`
-      })));
+  const requestData = {
+    code: code[questionId] || '',
+    lang,
+    input: userTestCases[questionId] || questions.find(q => q._id === questionId).testCases[0].input || '',
+    action: 'run',
   };
 
-  const handleSubmitCode = (questionId) => {
-    const requestData = {
-      code: code[questionId] || '',
-      lang,
-      testCases: questions.find(q => q._id === questionId).testCases,
-    };
-
-    axios.post('http://localhost:8080/compilecode', requestData)
-      .then(response => {
-        const results = response.data.results;
-        const formattedOutput = results.map((result, index) =>
-          `Test Case ${index + 1}:\nInput: ${result.input}\nExpected Output: ${result.expectedOutput}\nActual Output: ${result.actualOutput}\nPassed: ${result.passed}\n\n`
-        ).join('');
-        setOutput(prevOutput => ({
-          ...prevOutput,
-          [questionId]: formattedOutput
-        }));
-      })
-      .catch(error => setOutput(prevOutput => ({
+  axios.post('http://localhost:8080/compilecode', requestData)
+    .then(response => {
+      setOutput(prevOutput => ({
         ...prevOutput,
-        [questionId]: `Error: ${error.message}`
-      })));
+        [questionId]: response.data.output || `Error: ${response.data.error}`
+      }));
+    })
+    .catch(error => setOutput(prevOutput => ({
+      ...prevOutput,
+      [questionId]: `Error: ${error.message}`
+    })));
+};
+
+const handleSubmitCode = (questionId) => {
+  const requestData = {
+    code: code[questionId] || '',
+    lang,
+    testCases: questions.find(q => q._id === questionId).testCases,
+    action: 'submit',
   };
+
+  axios.post('http://localhost:8080/compilecode', requestData)
+    .then(response => {
+      const results = response.data.results;
+      const formattedOutput = results.map((result, index) =>
+        `Test Case ${index + 1}: ${result.passed ? 'Passed' : 'Failed'}\n`
+      ).join('');
+      setOutput(prevOutput => ({
+        ...prevOutput,
+        [questionId]: formattedOutput
+      }));
+    })
+    .catch(error => setOutput(prevOutput => ({
+      ...prevOutput,
+      [questionId]: `Error: ${error.message}`
+    })));
+};
+
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 p-8">
