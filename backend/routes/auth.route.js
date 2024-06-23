@@ -10,6 +10,7 @@ import {
   createQuestions,
   getQuestionsByRoomId,
 } from "../controllers/questionController.js";
+import { saveResults, getLeaderboard } from "../controllers/results.controller.js";
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.post("/studentsignin", studentsignin);
 router.post("/questions", createQuestions);
 router.get("/questions/:roomID", getQuestionsByRoomId);
 router.get("/getquestionset", getquestionset);
-
+router.post("/saveresults", saveResults);
+router.get("/leaderboard/:roomId", getLeaderboard);
 export default router;

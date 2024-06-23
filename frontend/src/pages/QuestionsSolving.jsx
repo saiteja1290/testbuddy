@@ -10,6 +10,8 @@ import 'codemirror/mode/xml/xml';
 
 const QuestionSolving = () => {
   const [roomID, setRoomID] = useState('');
+  const [rollnumber, setRollNumber] = useState('');
+  const [totalMarks, setTotalMarks] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [userTestCases, setUserTestCases] = useState({});
   const [code, setCode] = useState({});
@@ -25,51 +27,65 @@ const QuestionSolving = () => {
   };
 
   const handleRunCode = (questionId) => {
-  const requestData = {
-    code: code[questionId] || '',
-    lang,
-    input: userTestCases[questionId] || questions.find(q => q._id === questionId).testCases[0].input || '',
-    action: 'run',
+    const requestData = {
+      code: code[questionId] || '',
+      lang,
+      input: userTestCases[questionId] || questions.find(q => q._id === questionId).testCases[0].input || '',
+      action: 'run',
+    };
+
+    axios.post('http://localhost:8080/compilecode', requestData)
+      .then(response => {
+        setOutput(prevOutput => ({
+          ...prevOutput,
+          [questionId]: response.data.output || `Error: ${response.data.error}`
+        }));
+      })
+      .catch(error => setOutput(prevOutput => ({
+        ...prevOutput,
+        [questionId]: `Error: ${error.message}`
+      })));
   };
 
-  axios.post('http://localhost:8080/compilecode', requestData)
-    .then(response => {
-      setOutput(prevOutput => ({
-        ...prevOutput,
-        [questionId]: response.data.output || `Error: ${response.data.error}`
-      }));
-    })
-    .catch(error => setOutput(prevOutput => ({
-      ...prevOutput,
-      [questionId]: `Error: ${error.message}`
-    })));
-};
+  const handleSubmitCode = (questionId) => {
+    const requestData = {
+      code: code[questionId] || '',
+      lang,
+      testCases: questions.find(q => q._id === questionId).testCases,
+      action: 'submit',
+    };
 
-const handleSubmitCode = (questionId) => {
-  const requestData = {
-    code: code[questionId] || '',
-    lang,
-    testCases: questions.find(q => q._id === questionId).testCases,
-    action: 'submit',
+    axios.post('http://localhost:8080/compilecode', requestData)
+      .then(response => {
+        const results = response.data.results;
+        const passedTestCases = results.filter(result => result.passed).length;
+        const questionMarks = 1;
+
+        setTotalMarks(prevTotalMarks => prevTotalMarks + (passedTestCases * questionMarks));
+
+        const formattedOutput = results.map((result, index) =>
+          `Test Case ${index + 1}: ${result.passed ? 'Passed' : 'Failed'}\n`
+        ).join('');
+        setOutput(prevOutput => ({
+          ...prevOutput,
+          [questionId]: formattedOutput
+        }));
+
+        // Save results to the database with timestamp
+        axios.post('http://localhost:8080/api/user/saveresults', {
+          roomId: roomID,
+          rollnumber: rollnumber,
+          totalmarks: totalMarks + (passedTestCases * questionMarks),
+          timestamp: new Date().toISOString(),
+        })
+          .then(() => console.log('Results saved successfully'))
+          .catch(error => console.error('Error saving results:', error));
+      })
+      .catch(error => setOutput(prevOutput => ({
+        ...prevOutput,
+        [questionId]: `Error: ${error.message}`
+      })));
   };
-
-  axios.post('http://localhost:8080/compilecode', requestData)
-    .then(response => {
-      const results = response.data.results;
-      const formattedOutput = results.map((result, index) =>
-        `Test Case ${index + 1}: ${result.passed ? 'Passed' : 'Failed'}\n`
-      ).join('');
-      setOutput(prevOutput => ({
-        ...prevOutput,
-        [questionId]: formattedOutput
-      }));
-    })
-    .catch(error => setOutput(prevOutput => ({
-      ...prevOutput,
-      [questionId]: `Error: ${error.message}`
-    })));
-};
-
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 p-8">
@@ -80,6 +96,13 @@ const handleSubmitCode = (questionId) => {
           value={roomID}
           onChange={(e) => setRoomID(e.target.value)}
           className="p-2 border border-gray-300 rounded"
+        />
+        <input
+          type="text"
+          placeholder="Enter Roll Number"
+          value={rollnumber}
+          onChange={(e) => setRollNumber(e.target.value)}
+          className="p-2 border border-gray-300 rounded ml-4"
         />
         <button
           onClick={handleFetchQuestions}
@@ -164,6 +187,7 @@ const handleSubmitCode = (questionId) => {
           </div>
         </div>
       ))}
+      <div>Total Marks: {totalMarks}</div>
     </div>
   );
 };

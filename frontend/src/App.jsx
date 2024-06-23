@@ -8,6 +8,7 @@ import QuestionSetting from './pages/QuestionSetting';
 import TeacherDashboard from './pages/TeacherDashboard';
 import QuestionsSolving from './pages/QuestionsSolving';
 import StudentDashboard from './pages/StudentDashboard';
+import DisplayResult from './pages/DisplayResult';
 import Navbar from './components/Navbar';
 import PrivateRouteTeacher from './components/PrivateRouteTeacher';
 import PrivateRouteStudent from './components/PrivateRouteStudent';
@@ -22,16 +23,18 @@ function App() {
         <Route path='/adminsignup' element={<AdminSignup />} />
         <Route path='/studentlogin' element={<StudentLogin />} />
         <Route path='/adminlogin' element={<AdminLogin />} />
-
+        <Route path='/questionsolving' element={<QuestionsSolving />} />
+        <Route path='/QuestionSetting' element={<QuestionSetting />} />
+        <Route path='/displayresult' element={<DisplayResult />} />
         {/* Private routes for teachers */}
         <Route element={<PrivateRouteTeacher />}>
-          <Route path='/QuestionSetting' element={<QuestionSetting />} />
+          {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
           <Route path='/teacherdashboard' element={<TeacherDashboard />} />
         </Route>
 
         {/* Private routes for students */}
         <Route element={<PrivateRouteStudent />}>
-          <Route path='/questionsolving' element={<QuestionsSolving />} />
+          {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
           <Route path='/studentdashboard' element={<StudentDashboard />} />
         </Route>
       </Routes>

@@ -1,5 +1,6 @@
 import Question from "../models/QuestionSchema.js";
-
+// import ExamResult from "../models/ExamResults.js";
+import ExamRes from "../models/ExamResults.js";
 export const createQuestions = async (req, res) => {
   const { roomId, numQuestions, studentQuestions, questions } = req.body;
 
@@ -82,3 +83,41 @@ export const getQuestionsByRoomId = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const saveResults = async (req, res) => {
+  const { roomId, rollnumber, totalmarks } = req.body;
+
+  try {
+    // Find the existing record for the room
+    let examResults = await ExamRes.findOne({ roomId });
+
+    if (examResults) {
+      // Check if the rollnumber already exists
+      const existingResult = examResults.results.find(
+        result => result.rollnumber === rollnumber
+      );
+
+      if (existingResult) {
+        // Update the existing result
+        existingResult.totalmarks = totalmarks;
+      } else {
+        // Add a new result
+        examResults.results.push({ rollnumber, totalmarks });
+      }
+    } else {
+      // Create a new record for the room
+      examResults = new ExamRes({
+        roomId,
+        results: [{ rollnumber, totalmarks }],
+      });
+    }
+
+    await examResults.save();
+
+    res.status(200).json({ message: 'Results saved successfully!' });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while saving results.' });
+  }
+};
+
+
