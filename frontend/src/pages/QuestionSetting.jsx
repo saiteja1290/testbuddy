@@ -1,6 +1,10 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const QuestionSetting = () => {
   const [numQuestions, setNumQuestions] = useState(0);
@@ -55,110 +59,95 @@ const QuestionSetting = () => {
   };
 
   return (
-    <div className="bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-6">Create Questions for Room</h1>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="roomId">
-            Room ID
-          </label>
-          <input
-            type="text"
-            id="roomId"
-            value={roomId}
-            onChange={(e) => setRoomId(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter Room ID..."
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="numQuestions">
-            Number of Questions
-          </label>
-          <input
-            type="number"
-            id="numQuestions"
-            value={numQuestions}
-            onChange={(e) => setNumQuestions(Number(e.target.value))}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter number of questions..."
-          />
-        </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="studentQuestions">
-            Number of Questions per Student
-          </label>
-          <input
-            type="number"
-            id="studentQuestions"
-            value={studentQuestions}
-            onChange={(e) => setStudentQuestions(Number(e.target.value))}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter number of questions per student..."
-          />
-        </div>
-        <div className="mb-6">
-          <button
-            onClick={generateQuestionForms}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Generate Questions
-          </button>
-        </div>
-        <form onSubmit={handleSubmit}>
-          <div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#2D3748] p-6 text-[#E2E8F0]">
+      <Card className="bg-[#4A5568] text-[#E2E8F0] max-w-4xl w-full">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold mb-6 text-center">Create Questions for Room</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="mb-6">
+            <Label htmlFor="roomId" className="text-sm font-bold mb-2">Room ID</Label>
+            <Input
+              id="roomId"
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+              placeholder="Enter Room ID..."
+              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+            />
+          </div>
+          <div className="mb-6">
+            <Label htmlFor="numQuestions" className="text-sm font-bold mb-2">Number of Questions</Label>
+            <Input
+              type="number"
+              id="numQuestions"
+              value={numQuestions}
+              onChange={(e) => setNumQuestions(Number(e.target.value))}
+              placeholder="Enter number of questions..."
+              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+            />
+          </div>
+          <div className="mb-6">
+            <Label htmlFor="studentQuestions" className="text-sm font-bold mb-2">Number of Questions per Student</Label>
+            <Input
+              type="number"
+              id="studentQuestions"
+              value={studentQuestions}
+              onChange={(e) => setStudentQuestions(Number(e.target.value))}
+              placeholder="Enter number of questions per student..."
+              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+            />
+          </div>
+          <div className="mb-6">
+            <Button onClick={generateQuestionForms} className="bg-[#4A5568] text-[#E2E8F0] w-full hover:bg-[#63B3ED] hover:text-[#2D3748]">
+              Generate Questions
+            </Button>
+          </div>
+          <form onSubmit={handleSubmit}>
             {questions.map((question, questionIndex) => (
               <div key={questionIndex} className="mb-8">
                 <h2 className="text-xl font-bold mb-4">Question {questionIndex + 1}</h2>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`question${questionIndex}`}>
-                    Question
-                  </label>
-                  <textarea
+                  <Label htmlFor={`question${questionIndex}`} className="text-sm font-bold mb-2">Question</Label>
+                  <Textarea
                     id={`question${questionIndex}`}
                     value={question.questionText}
                     onChange={(e) => handleInputChange(questionIndex, 'questionText', e.target.value)}
-                    rows="2"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder={`Enter question ${questionIndex + 1}...`}
+                    className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Test Cases (5)
-                  </label>
+                  <Label className="text-sm font-bold mb-2">Test Cases (5)</Label>
                   {question.testCases.map((testCase, testCaseIndex) => (
                     <div key={testCaseIndex} className="mb-2">
-                      <label className="block text-gray-700 text-sm font-bold mb-1">
-                        Test Case {testCaseIndex + 1}
-                      </label>
-                      <input
+                      <Label className="text-sm font-bold mb-1">Test Case {testCaseIndex + 1}</Label>
+                      <Input
                         type="text"
                         value={testCase.input}
                         onChange={(e) => handleTestCaseChange(questionIndex, testCaseIndex, 'input', e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-1"
                         placeholder={`Input for test case ${testCaseIndex + 1}`}
+                        className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full mb-1"
                       />
-                      <input
+                      <Input
                         type="text"
                         value={testCase.expectedOutput}
                         onChange={(e) => handleTestCaseChange(questionIndex, testCaseIndex, 'expectedOutput', e.target.value)}
-                        className="shadow appearance-none border rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder={`Expected output for test case ${testCaseIndex + 1}`}
+                        className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
                       />
                     </div>
                   ))}
                 </div>
               </div>
             ))}
-          </div>
-          <div className="flex items-center justify-between">
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Set Exam
-            </button>
-          </div>
-        </form>
-      </div>
+            <div className="flex items-center justify-between">
+              <Button type="submit" className="bg-[#4A5568] text-[#E2E8F0] w-full hover:bg-[#63B3ED] hover:text-[#2D3748]">
+                Set Exam
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
