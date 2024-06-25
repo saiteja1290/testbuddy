@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -30,67 +41,61 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Admin Login to your account
-        </h2>
-      </div>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Email
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+    <div className="flex items-center justify-center h-screen bg-primaryBg">
+      <Card className="w-[350px] bg-borderColor text-primaryText">
+        <CardHeader className="justify-center">
+          <CardTitle>Admin Login</CardTitle>
+          <CardDescription>Login to access the admin dashboard</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit}>
+            <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your Email"
+                  className="bg-borderColor text-primaryText border border-buttonBg focus:ring-2 focus:ring-buttonBg"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter the Password"
+                  className="bg-borderColor text-primaryText border border-buttonBg focus:ring-2 focus:ring-buttonBg"
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-              Password
-            </label>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+            {errorMessage && (
+              <div className="text-red-500 text-sm">
+                {errorMessage}
+              </div>
+            )}
+            <div className="flex flex-col items-center mt-4">
+              <Button type="submit" className="bg-buttonBg text-buttonText">Login</Button>
             </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <div className='flex gap-2 mt-0'>
+            <p>Don't have an account?</p>
+            <Link to={'/adminsignup'}>
+              <span className='text-buttonBg'>Sign Up</span>
+            </Link>
           </div>
-          {errorMessage && (
-            <div className="text-red-500 text-sm">
-              {errorMessage}
-            </div>
-          )}
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Login
-            </button>
-          </div>
-        </form>
-        <div className='flex gap-2 mt-5'>
-          <p> Don't have an account?</p>
-          <Link to={'/adminsignup'}>
-            <span className='text-blue-700'>Sign Up</span>
-          </Link>
-        </div>
-      </div>
+        </CardFooter>
+      </Card>
     </div>
   );
 };

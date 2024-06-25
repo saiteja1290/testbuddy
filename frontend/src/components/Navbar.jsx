@@ -1,7 +1,16 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signOut } from '../redux/userSlice';
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Navbar = () => {
     const currentUser = localStorage.getItem('userType');
@@ -12,7 +21,6 @@ const Navbar = () => {
         const toggleButton = document.getElementById('navbar-toggle');
         const navbarMenu = document.getElementById('navbar-default');
 
-        // Navbar toggle function
         toggleButton.addEventListener('click', () => {
             navbarMenu.classList.toggle('hidden');
         });
@@ -32,45 +40,61 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-indigo-800 dark:bg-gray-800">
+        <nav className="bg-primaryBg border-b border-borderColor">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Link className="flex items-center space-x-3 rtl:space-x-reverse" to="/">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-100">TestBuddy</span>
-                </a>
-                <button id="navbar-toggle" data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-100 rounded-lg md:hidden hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:text-gray-100 dark:hover:bg-indigo-600 dark:focus:ring-indigo-600" aria-controls="navbar-default" aria-expanded="false">
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap text-primaryText">TestBuddy</span>
+                </Link>
+                <button id="navbar-toggle" data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-primaryText rounded-lg md:hidden hover:bg-borderColor focus:outline-none focus:ring-2 focus:ring-borderColor" aria-controls="navbar-default" aria-expanded="false">
                     <span className="sr-only">Open main menu</span>
                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                     </svg>
                 </button>
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-                    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-indigo-600 rounded-lg bg-indigo-800 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-indigo-800 dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-800">
+                    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-borderColor rounded-lg bg-primaryBg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                         {currentUser ? (
                             <>
                                 <li>
-                                    <span className="block py-2 px-3 text-gray-100">
+                                    <span className="block py-2 px-3 text-primaryText">
                                         {currentUser === 'teacher' ? 'Logged in as Teacher' : 'Logged in as Student'}
                                     </span>
                                 </li>
-                                <li>
-                                    <button onClick={handleLogout} className="block py-2 px-3 text-gray-100 rounded hover:bg-indigo-600 md:hover:bg-transparent md:border-0 md:hover:text-indigo-500 md:p-0 dark:text-gray-100 md:dark:hover:text-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-100 md:dark:hover:bg-transparent">
-                                        Logout
-                                    </button>
-                                </li>
+                                
                             </>
                         ) : (
                             <>
                                 <li>
-                                    <Link to='/studentlogin' className="sign-in-btn block py-2 px-3 text-gray-100 rounded hover:bg-indigo-600 md:hover:bg-transparent md:border-0 md:hover:text-indigo-500 md:p-0 dark:text-gray-100 md:dark:hover:text-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-100 md:dark:hover:bg-transparent">Student Login</Link>
+                                    <Button onClick={() => navigate('/studentlogin')} className="block py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-buttonBg md:p-0">
+                                        Student Login
+                                    </Button>
                                 </li>
                                 <li>
-                                    <Link to='/adminlogin' className="sign-in-btn block py-2 px-3 text-gray-100 rounded hover:bg-indigo-600 md:hover:bg-transparent md:border-0 md:hover:text-indigo-500 md:p-0 dark:text-gray-100 md:dark:hover:text-indigo-500 dark:hover:bg-indigo-600 dark:hover:text-gray-100 md:dark:hover:bg-transparent">Admin Login</Link>
+                                    <Button onClick={() => navigate('/adminlogin')} className="block py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-buttonBg md:p-0">
+                                        Admin Login
+                                    </Button>
                                 </li>
                             </>
                         )}
                     </ul>
                 </div>
+                {currentUser && (
+                    <DropdownMenu>
+    <DropdownMenuTrigger>
+        <Button className="ml-3 py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full">Menu</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent className="bg-primaryBg text-primaryText mt-2 rounded-lg shadow-lg w-32">
+        <DropdownMenuItem className="hover:bg-buttonBg hover:text-buttonText rounded-t-lg">
+            <Link to='/profile' className="block py-2 px-4">Profile</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout} className="hover:bg-buttonBg hover:text-buttonText rounded-b-lg">
+            <span className="block py-2 px-4">Logout</span>
+        </DropdownMenuItem>
+    </DropdownMenuContent>
+</DropdownMenu>
+
+                )}
             </div>
         </nav>
     );
