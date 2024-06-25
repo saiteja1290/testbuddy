@@ -24,21 +24,24 @@ function App() {
         <Route path='/adminsignup' element={<AdminSignup />} />
         <Route path='/studentlogin' element={<StudentLogin />} />
         <Route path='/adminlogin' element={<AdminLogin />} />
-        <Route path='/questionsolving' element={<QuestionsSolving />} />
-        <Route path='/QuestionSetting' element={<QuestionSetting />} />
+        {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
+        {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
+        {/* <Route path='/displayresult' element={<DisplayResult />} /> */}
         <Route path='/displayresult' element={<DisplayResult />} />
         <Route path="/exam-results" element={<ExamResults />} />
 
         {/* Private routes for teachers */}
         <Route element={<PrivateRouteTeacher />}>
-          {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
+          <Route path='/QuestionSetting' element={<QuestionSetting />} />
           <Route path='/teacherdashboard' element={<TeacherDashboard />} />
+
         </Route>
 
         {/* Private routes for students */}
         <Route element={<PrivateRouteStudent />}>
-          {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
+          <Route path='/questionsolving' element={<QuestionsSolving />} />
           <Route path='/studentdashboard' element={<StudentDashboard />} />
+          <Route path="/exam-results" element={<ExamResults />} />
         </Route>
       </Routes>
     </>
