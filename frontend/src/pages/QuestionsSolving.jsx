@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
+import { useNavigate } from 'react-router-dom';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/python/python';
-import 'codemirror/mode/xml/xml';
 
 const QuestionSolving = () => {
   const [roomID, setRoomID] = useState('');
   const [rollnumber, setRollNumber] = useState('');
-  const [totalMarks, setTotalMarks] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [userTestCases, setUserTestCases] = useState({});
   const [code, setCode] = useState({});
   const [output, setOutput] = useState({});
   const [lang, setLang] = useState('Python');
+  const navigate = useNavigate();
 
   const handleFetchQuestions = () => {
     axios.get(`http://localhost:8080/api/user/questions/${roomID}`)
@@ -58,11 +58,6 @@ const QuestionSolving = () => {
     axios.post('http://localhost:8080/compilecode', requestData)
       .then(response => {
         const results = response.data.results;
-        const passedTestCases = results.filter(result => result.passed).length;
-        const questionMarks = 1;
-
-        setTotalMarks(prevTotalMarks => prevTotalMarks + (passedTestCases * questionMarks));
-
         const formattedOutput = results.map((result, index) =>
           `Test Case ${index + 1}: ${result.passed ? 'Passed' : 'Failed'}\n`
         ).join('');
@@ -70,16 +65,6 @@ const QuestionSolving = () => {
           ...prevOutput,
           [questionId]: formattedOutput
         }));
-
-        // Save results to the database with timestamp
-        axios.post('http://localhost:8080/api/user/saveresults', {
-          roomId: roomID,
-          rollnumber: rollnumber,
-          totalmarks: totalMarks + (passedTestCases * questionMarks),
-          timestamp: new Date().toISOString(),
-        })
-          .then(() => console.log('Results saved successfully'))
-          .catch(error => console.error('Error saving results:', error));
       })
       .catch(error => setOutput(prevOutput => ({
         ...prevOutput,
@@ -87,36 +72,78 @@ const QuestionSolving = () => {
       })));
   };
 
+  const handleSubmitExam = () => {
+    let totalMarks = 0;
+    const results = questions.map(question => {
+      const requestData = {
+        code: code[question._id] || '',
+        lang,
+        testCases: question.testCases,
+        action: 'submit',
+      };
+
+      return axios.post('http://localhost:8080/compilecode', requestData)
+        .then(response => {
+          const passedTestCases = response.data.results.filter(result => result.passed).length;
+          const questionMarks = passedTestCases; // Each question is worth 5 marks
+          totalMarks += questionMarks;
+          return { questionId: question._id, passedTestCases, totalMarks: questionMarks };
+        })
+        .catch(error => ({ questionId: question._id, error: error.message }));
+    });
+
+    Promise.all(results)
+      .then(allResults => {
+        // Save results to the database with timestamp
+        axios.post('http://localhost:8080/api/user/saveresults', {
+          roomId: roomID,
+          rollnumber: rollnumber,
+          totalmarks: totalMarks,
+          timestamp: new Date().toISOString(),
+        })
+          .then(() => {
+            navigate('/exam-results', {
+              state: {
+                totalMarks,
+                maxMarks: questions.length * 5,
+                percentage: (totalMarks / (questions.length * 5)) * 100,
+              }
+            });
+          })
+          .catch(error => console.error('Error saving results:', error));
+      });
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 p-8">
+    <div className="min-h-screen flex flex-col bg-[#424242] p-8 text-[#FAFAFA]">
       <div className="flex justify-center mb-8">
         <input
           type="text"
           placeholder="Enter Room ID"
           value={roomID}
           onChange={(e) => setRoomID(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
+          className="p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA]"
         />
         <input
           type="text"
           placeholder="Enter Roll Number"
           value={rollnumber}
           onChange={(e) => setRollNumber(e.target.value)}
-          className="p-2 border border-gray-300 rounded ml-4"
+          className="p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA] ml-4"
         />
         <button
           onClick={handleFetchQuestions}
-          className="ml-4 py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          className="ml-4 py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116]"
         >
           Fetch Questions
         </button>
       </div>
 
-      {questions.map((question, index) => (
-        <div key={question._id} className="mb-8 p-4 bg-white shadow-lg rounded">
-          <h2 className="text-xl font-semibold text-blue-700">{question.questionText}</h2>
-          <p className="text-gray-900 mb-4">{question.description}</p>
-          <h3 className="text-lg font-semibold text-blue-700">Test Cases:</h3>
+      {questions.map((question) => (
+        <div key={question._id} className="mb-8 p-4 bg-[#292929] shadow-lg rounded">
+          <h2 className="text-xl font-semibold text-[#FFA116]">{question.questionText}</h2>
+          <p className="text-[#FAFAFA] mb-4">{question.description}</p>
+          <h3 className="text-lg font-semibold text-[#FFA116]">Test Cases:</h3>
           {question.testCases.length > 0 && (
             <div>
               <p>Input: {question.testCases[0].input}</p>
@@ -124,18 +151,16 @@ const QuestionSolving = () => {
             </div>
           )}
 
-          <div className="mb-4 flex justify-between items-center">
-            <div>
-              <label className="block mb-2 text-blue-700">Language:</label>
-              <select value={lang} onChange={(e) => setLang(e.target.value)} className="block w-full p-2 border border-gray-300 rounded">
-                <option value="C">C</option>
-                <option value="Java">Java</option>
-                <option value="Python">Python</option>
-              </select>
-            </div>
+          <div className="mb-4">
+            <label className="block mb-2 text-[#FFA116]">Language:</label>
+            <select value={lang} onChange={(e) => setLang(e.target.value)} className="block w-full p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA]">
+              <option value="C">C</option>
+              <option value="Java">Java</option>
+              <option value="Python">Python</option>
+            </select>
           </div>
 
-          <div className="code-mirror-wrapper mb-4" style={{ height: '300px' }}>
+          <div className="code-mirror-wrapper mb-4" style={{ height: '600px' }}>
             <ControlledEditor
               onBeforeChange={(editor, data, value) => {
                 setCode(prevCode => ({
@@ -154,40 +179,45 @@ const QuestionSolving = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-2 text-blue-700">Test Cases Input:</label>
+            <label className="block mb-2 text-[#FFA116]">Test Cases Input:</label>
             <textarea
               value={userTestCases[question._id] || question.testCases[0]?.input || ''}
               onChange={(e) => setUserTestCases(prevTestCases => ({
                 ...prevTestCases,
                 [question._id]: e.target.value
               }))}
-              className="block w-full p-2 border border-gray-300 rounded"
+              className="block w-full p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA]"
               rows="4"
             />
           </div>
-          <br /><br /><br /><br /><br /><br />
-          <div className="flex justify-between">
+
+          <div className="flex justify-between mb-4">
             <button
-              className="py-2 px-4 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              className="py-2 px-4 bg-[#10B981] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#10B981]"
               onClick={() => handleRunCode(question._id)}
             >
               Run Code
             </button>
             <button
-              className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              className="py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116]"
               onClick={() => handleSubmitCode(question._id)}
             >
               Submit Code
             </button>
           </div>
 
-          <div className="bg-white p-4 border border-blue-300 rounded-lg shadow-inner mt-4">
-            <h3 className="text-xl font-semibold text-blue-700 mb-2">Output:</h3>
-            <pre className="whitespace-pre-wrap text-gray-900 code-output">{output[question._id]}</pre>
+          <div className="bg-[#292929] p-4 border border-[#10B981] rounded-lg shadow-inner">
+            <h3 className="text-xl font-semibold text-[#FFA116] mb-2">Output:</h3>
+            <pre className="whitespace-pre-wrap text-[#FAFAFA] code-output">{output[question._id]}</pre>
           </div>
         </div>
       ))}
-      <div>Total Marks: {totalMarks}</div>
+      <button
+        className="py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116] self-center mb-8"
+        onClick={handleSubmitExam}
+      >
+        Submit Exam
+      </button>
     </div>
   );
 };
