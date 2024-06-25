@@ -13,7 +13,7 @@ import Navbar from './components/Navbar';
 import PrivateRouteTeacher from './components/PrivateRouteTeacher';
 import PrivateRouteStudent from './components/PrivateRouteStudent';
 import ExamResults from './pages/ExamResults';
-
+import { LoginForm } from './pages/LoginForm';
 function App() {
   return (
     <>
@@ -23,6 +23,7 @@ function App() {
         <Route path='/studentsignup' element={<StudentSignup />} />
         <Route path='/adminsignup' element={<AdminSignup />} />
         <Route path='/studentlogin' element={<StudentLogin />} />
+        <Route path='/loginform' element={<LoginForm />} />
         <Route path='/adminlogin' element={<AdminLogin />} />
         {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
         {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
