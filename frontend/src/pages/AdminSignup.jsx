@@ -88,7 +88,9 @@ const AdminSignup = () => {
           <div className='flex gap-2 mt-0'>
             <p>Have an account?</p>
             <Link to={'/adminlogin'}>
-              <span className='text-buttonBg hover:text-green-600 transition duration-300 transform hover:scale-110'>Sign in</span>
+              <span className="inline-block font-semibold text-blue-500 hover:text-blue-700 transition duration-300">
+                Sign Up
+              </span>
             </Link>
           </div>
         </CardFooter>

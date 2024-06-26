@@ -85,7 +85,7 @@ const StudentLogin = () => {
               </div>
             )}
             <div className="flex flex-col items-center mt-4">
-              <Button type="submit" className="bg-buttonBg text-buttonText">Sign in</Button>
+              <Button type="submit" className="bg-buttonBg text-buttonText border border-gray-400 hover:bg-black hover:text-white">Sign in</Button>
             </div>          
           </form>
         </CardContent>
@@ -93,7 +93,9 @@ const StudentLogin = () => {
           <div className='flex gap-2 mt-0'>
             <p> Don't Have an account?</p>
             <Link to={'/studentsignup'}>
-              <span className='text-buttonBg'>Sign up</span>
+              <span span className="inline-block font-semibold text-blue-500 hover:text-blue-700 transition duration-300">
+                Sign Up
+              </span>
             </Link>
           </div>
         </CardFooter>
