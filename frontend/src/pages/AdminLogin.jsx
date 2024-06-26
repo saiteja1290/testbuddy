@@ -88,10 +88,12 @@ const AdminLogin = () => {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <div className='flex gap-2 mt-0'>
+          <div className="flex gap-2 mt-0">
             <p>Don't have an account?</p>
-            <Link to={'/adminsignup'}>
-              <span className='text-buttonBg'>Sign Up</span>
+            <Link to="/adminsignup">
+              <span className="inline-block font-semibold text-blue-500 hover:text-blue-700 transition duration-300">
+                Sign Up
+              </span>
             </Link>
           </div>
         </CardFooter>
