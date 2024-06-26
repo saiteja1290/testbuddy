@@ -72,7 +72,7 @@ const QuestionSetting = () => {
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
               placeholder="Enter Room ID..."
-              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0] focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -83,7 +83,7 @@ const QuestionSetting = () => {
               value={numQuestions}
               onChange={(e) => setNumQuestions(Number(e.target.value))}
               placeholder="Enter number of questions..."
-              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0]  focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -94,7 +94,7 @@ const QuestionSetting = () => {
               value={studentQuestions}
               onChange={(e) => setStudentQuestions(Number(e.target.value))}
               placeholder="Enter number of questions per student..."
-              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0]  focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -113,7 +113,7 @@ const QuestionSetting = () => {
                     value={question.questionText}
                     onChange={(e) => handleInputChange(questionIndex, 'questionText', e.target.value)}
                     placeholder={`Enter question ${questionIndex + 1}...`}
-                    className="bg-[#222428]s text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+                    className="bg-[#222428]s text-black  focus:ring-2 focus:ring-[#63B3ED] w-full"
                   />
                 </div>
                 <div className="mb-4">
@@ -126,14 +126,14 @@ const QuestionSetting = () => {
                         value={testCase.input}
                         onChange={(e) => handleTestCaseChange(questionIndex, testCaseIndex, 'input', e.target.value)}
                         placeholder={`Input for test case ${testCaseIndex + 1}`}
-                        className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full mb-1"
+                        className="bg-[#2D3748] text-[#E2E8F0]  focus:ring-2 focus:ring-[#63B3ED] w-full mb-1"
                       />
                       <Input
                         type="text"
                         value={testCase.expectedOutput}
                         onChange={(e) => handleTestCaseChange(questionIndex, testCaseIndex, 'expectedOutput', e.target.value)}
                         placeholder={`Expected output for test case ${testCaseIndex + 1}`}
-                        className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+                        className="bg-[#2D3748] text-[#E2E8F0]  focus:ring-2 focus:ring-[#63B3ED] w-full"
                       />
                     </div>
                   ))}

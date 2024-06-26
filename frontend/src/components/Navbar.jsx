@@ -79,7 +79,7 @@ const Navbar = () => {
                 {currentUser && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button className="ml-3 py-2 px-4 w-32 bg-black text-buttonText rounded-full text-white">
+                            <Button className="ml-3 py-2 px-4 w-32 bg-white text-black rounded-full border border-gray-400 hover:bg-black hover:text-white">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>

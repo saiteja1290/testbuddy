@@ -29,7 +29,7 @@ const StudentLogin = () => {
       });
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('userType', 'student');
-      navigate('/questionsolving');
+      navigate('/studentdashboard');
     } catch (error) {
       console.error(error);
       if (error.response && error.response.data && error.response.data.message) {
