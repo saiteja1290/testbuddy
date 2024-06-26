@@ -25,7 +25,7 @@ init(option);
 app.get("/", (req, res) => {
   return res.status(200).send("Welcome to MERN stack Project");
 });
-
+const PORT = process.env.PORT || 8080
 // Auth routes
 app.use("/api/user", router);
 
@@ -43,8 +43,8 @@ mongoose
   .connect(process.env.mongo_url)
   .then(() => {
     console.log("App connected to database");
-    app.listen(8080, () => {
-      console.log("App is listening to port: 8080");
+    app.listen(PORT, () => {
+      console.log(`App is listening to port: ${PORT}`);
     });
   })
   .catch((error) => {
