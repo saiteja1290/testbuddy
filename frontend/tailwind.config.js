@@ -17,17 +17,17 @@ module.exports = {
     },
     extend: {
       colors: {
-        primaryBg: "#424242", // Dark background
-        primaryText: "#FAFAFA", // Light text
-        secondaryText: "#8C8C8C", // Secondary text
-        buttonBg: "#FFA116", // Button background
-        buttonText: "#1E1E1E", // Button text
-        borderColor: "#292929", // Border color
-        border: "#292929", // Border color for components
-        input: "#2D2D2D", // Input background
-        ring: "#2D2D2D", // Ring color
-        background: "#1E1E1E", // Background color
-        foreground: "#FFFFFF", // Foreground text color
+        primaryBg: "black",
+        primaryText: "#FAFAFA",
+        secondaryText: "#8C8C8C",
+        buttonBg: "white",
+        buttonText: "#1E1E1E",
+        borderColor: "black",
+        border: "#27272a",
+        input: "#2D2D2D",
+        ring: "#2D2D2D",
+        background: "#1E1E1E",
+        foreground: "#FFFFFF",
         primary: {
           DEFAULT: "#FFA116",
           foreground: "#1E1E1E",

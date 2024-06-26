@@ -83,7 +83,7 @@ const AdminLogin = () => {
               </div>
             )}
             <div className="flex flex-col items-center mt-4">
-              <Button type="submit" className="bg-buttonBg text-buttonText">Login</Button>
+              <Button type="submit" className="bg-buttonBg border boder-[#2727A] text-buttonText hover:text-white hover:bg-black ">Login</Button>
             </div>
           </form>
         </CardContent>

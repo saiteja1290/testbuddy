@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Home = () => {
     return (
         <>
-            <div className="bg-primaryBg min-h-screen text-primaryText">
+            <div className="bg-black min-h-screen text-primaryText">
                 <div className="max-w-6xl m-auto text-primaryText flex flex-wrap justify-center py-12">
                     <div className="w-5/6 md:w-2/4 p-6">
                         <h1 className="text-2xl md:text-4xl text-center font-bold mb-5">Welcome to TestBuddy</h1>
@@ -12,18 +12,18 @@ const Home = () => {
                             TestBuddy is an online platform that allows teachers to create and manage coding questions and students to solve them.
                         </p>
                         <div className="flex justify-center mb-8">
-                            <Link to='/studentsignup' className="bg-buttonBg text-buttonText font-bold py-2 px-4 rounded-full mx-2">
+                            <Link to='/studentsignup' className="bg-white text-black font-bold py-2 px-4 rounded-full mx-2">
                                 Student Signup
                             </Link>
-                            <Link to='/adminsignup' className="bg-buttonBg text-buttonText font-bold py-2 px-4 rounded-full mx-2">
+                            <Link to='/adminsignup' className="bg-white text-black font-bold py-2 px-4 rounded-full mx-2">
                                 Admin Signup
                             </Link>
                         </div>
                     </div>
                 </div>
-                <div className="bg-borderColor py-12">
+                <div className="bg-black py-12">
                     <div className="max-w-6xl m-auto text-primaryText flex flex-wrap justify-center">
-                        <div className="w-full md:w-1/2 p-6">
+                        <div className="w-full md:w-1/2 p-6 border-color">
                             <h2 className="text-2xl md:text-3xl font-bold mb-3">Why Choose TestBuddy?</h2>
                             <ul className="list-disc list-inside">
                                 <li className="mb-2">Interactive platform for learning coding</li>
@@ -38,17 +38,17 @@ const Home = () => {
                                 Join TestBuddy today and revolutionize the way coding is taught and learned. Whether you are a student eager to improve your coding skills or an educator looking for better tools to engage your students, TestBuddy is the platform for you.
                             </p>
                             <div className="flex justify-center">
-                                <Link to='/studentsignup' className="bg-buttonBg text-buttonText font-bold py-2 px-4 rounded-full mx-2">
+                                <Link to='/studentsignup' className="bg-white text-black font-bold py-2 px-4 rounded-full mx-2">
                                     Sign Up as a Student
                                 </Link>
-                                <Link to='/adminsignup' className="bg-buttonBg text-buttonText font-bold py-2 px-4 rounded-full mx-2">
+                                <Link to='/adminsignup' className="bg-white text-black font-bold py-2 px-4 rounded-full mx-2">
                                     Sign Up as an Admin
                                 </Link>
                             </div>
                         </div>
                     </div>
                 </div>
-                <footer className="bg-primaryBg text-secondaryText py-6 text-center">
+                <footer className="bg-black text-secondaryText py-6 text-center">
                     <p>&copy; 2024 TestBuddy. All rights reserved.</p>
                 </footer>
             </div>

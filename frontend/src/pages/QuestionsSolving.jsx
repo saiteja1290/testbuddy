@@ -16,12 +16,14 @@ const QuestionSolving = () => {
   const [code, setCode] = useState({});
   const [output, setOutput] = useState({});
   const [lang, setLang] = useState('Python');
+  const [questionsFetched, setQuestionsFetched] = useState(false); // New state to track if questions are fetched
   const navigate = useNavigate();
 
   const handleFetchQuestions = () => {
     axios.get(`http://localhost:8080/api/user/questions/${roomID}`)
       .then(response => {
         setQuestions(response.data.questions);
+        setQuestionsFetched(true); // Set to true when questions are fetched
       })
       .catch(error => console.error('Error fetching questions:', error));
   };
@@ -115,7 +117,7 @@ const QuestionSolving = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#424242] p-8 text-[#FAFAFA]">
+    <div className="min-h-screen flex flex-col bg-black p-8 text-[#FAFAFA]">
       <div className="flex justify-center mb-8">
         <input
           type="text"
@@ -133,7 +135,7 @@ const QuestionSolving = () => {
         />
         <button
           onClick={handleFetchQuestions}
-          className="ml-4 py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116]"
+          className="ml-4 py-2 px-4 bg-white text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white border border-grey-300"
         >
           Fetch Questions
         </button>
@@ -141,18 +143,18 @@ const QuestionSolving = () => {
 
       {questions.map((question) => (
         <div key={question._id} className="mb-8 p-4 bg-[#292929] shadow-lg rounded">
-          <h2 className="text-xl font-semibold text-[#FFA116]">{question.questionText}</h2>
+          <h2 className="text-xl font-bold text-white">{question.questionText}</h2>
           <p className="text-[#FAFAFA] mb-4">{question.description}</p>
-          <h3 className="text-lg font-semibold text-[#FFA116]">Test Cases:</h3>
+          <h3 className="text-lg font-bold text-white">Test Cases:</h3>
           {question.testCases.length > 0 && (
             <div>
-              <p>Input: {question.testCases[0].input}</p>
-              <p>Expected Output: {question.testCases[0].expectedOutput}</p>
+              <p className="text-[#bcbcbf]">Input: {question.testCases[0].input}</p>
+              <p className="text-[#bcbcbf]">Expected Output: {question.testCases[0].expectedOutput}</p>
             </div>
           )}
 
           <div className="mb-4">
-            <label className="block mb-2 text-[#FFA116]">Language:</label>
+            <label className="block mb-2 text-xl font-bold text-white">Language:</label>
             <select value={lang} onChange={(e) => setLang(e.target.value)} className="block w-full p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA]">
               <option value="C">C</option>
               <option value="Java">Java</option>
@@ -179,7 +181,7 @@ const QuestionSolving = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block mb-2 text-[#FFA116]">Test Cases Input:</label>
+            <label className="block mb-2 text-white">Test Cases Input:</label>
             <textarea
               value={userTestCases[question._id] || question.testCases[0]?.input || ''}
               onChange={(e) => setUserTestCases(prevTestCases => ({
@@ -193,31 +195,37 @@ const QuestionSolving = () => {
 
           <div className="flex justify-between mb-4">
             <button
-              className="py-2 px-4 bg-[#10B981] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#10B981]"
+              className="py-2 px-4 bg-[#2bb863] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#10B981]"
               onClick={() => handleRunCode(question._id)}
             >
               Run Code
             </button>
             <button
-              className="py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116]"
+              className="py-2 px-4 bg-white text-[#1E1E1E] rounded-lg  hover:bg-black hover:text-white border border-grey-300"
               onClick={() => handleSubmitCode(question._id)}
             >
               Submit Code
             </button>
           </div>
 
-          <div className="bg-[#292929] p-4 border border-[#10B981] rounded-lg shadow-inner">
-            <h3 className="text-xl font-semibold text-[#FFA116] mb-2">Output:</h3>
+          <div className="bg-[#292929] p-4 border border-[#2727A] rounded-lg shadow-inner">
+            <h3 className="text-xl font-semibold text-white mb-2">Output:</h3>
             <pre className="whitespace-pre-wrap text-[#FAFAFA] code-output">{output[question._id]}</pre>
           </div>
+          
         </div>
+        
       ))}
-      <button
-        className="py-2 px-4 bg-[#FFA116] text-[#1E1E1E] rounded-lg hover:bg-[#292929] hover:text-[#FFA116] self-center mb-8"
-        onClick={handleSubmitExam}
-      >
-        Submit Exam
-      </button>
+      {questionsFetched && ( // Only show the button if questions have been fetched
+        <div className="flex justify-center mt-4">
+          <button
+            className="py-2 px-4 bg-white item-center text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white self-center mb-8 border border-grey-300"
+            onClick={handleSubmitExam}
+          >
+            Submit Exam
+          </button>
+        </div>
+      )}
     </div>
   );
 };
