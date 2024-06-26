@@ -27,6 +27,7 @@ const AdminSignup = () => {
         email,
         password
       });
+      console.log("Hello");
       console.log(response.data);
       alert('Signup successful!');
       navigate('/adminlogin');

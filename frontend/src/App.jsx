@@ -12,8 +12,13 @@ import DisplayResult from './pages/DisplayResult';
 import Navbar from './components/Navbar';
 import PrivateRouteTeacher from './components/PrivateRouteTeacher';
 import PrivateRouteStudent from './components/PrivateRouteStudent';
+<<<<<<< HEAD
 import StudentResult  from './pages/StudentResult';
 
+=======
+import ExamResults from './pages/ExamResults';
+import { LoginForm } from './pages/LoginForm';
+>>>>>>> c72d713ef4b8397d5947b6d195f81d2891e6c5fb
 function App() {
   return (
     <>
@@ -23,22 +28,26 @@ function App() {
         <Route path='/studentsignup' element={<StudentSignup />} />
         <Route path='/adminsignup' element={<AdminSignup />} />
         <Route path='/studentlogin' element={<StudentLogin />} />
+        <Route path='/loginform' element={<LoginForm />} />
         <Route path='/adminlogin' element={<AdminLogin />} />
-        <Route path='/questionsolving' element={<QuestionsSolving />} />
-        <Route path='/QuestionSetting' element={<QuestionSetting />} />
+        {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
+        {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
+        {/* <Route path='/displayresult' element={<DisplayResult />} /> */}
         <Route path='/displayresult' element={<DisplayResult />} />
         <Route path="/StudentResult" element={<StudentResult/>} />
 
         {/* Private routes for teachers */}
         <Route element={<PrivateRouteTeacher />}>
-          {/* <Route path='/QuestionSetting' element={<QuestionSetting />} /> */}
+          <Route path='/QuestionSetting' element={<QuestionSetting />} />
           <Route path='/teacherdashboard' element={<TeacherDashboard />} />
+
         </Route>
 
         {/* Private routes for students */}
         <Route element={<PrivateRouteStudent />}>
-          {/* <Route path='/questionsolving' element={<QuestionsSolving />} /> */}
+          <Route path='/questionsolving' element={<QuestionsSolving />} />
           <Route path='/studentdashboard' element={<StudentDashboard />} />
+          <Route path="/exam-results" element={<ExamResults />} />
         </Route>
       </Routes>
     </>
