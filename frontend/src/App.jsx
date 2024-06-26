@@ -12,7 +12,7 @@ import DisplayResult from './pages/DisplayResult';
 import Navbar from './components/Navbar';
 import PrivateRouteTeacher from './components/PrivateRouteTeacher';
 import PrivateRouteStudent from './components/PrivateRouteStudent';
-import ExamResults from './pages/ExamResults';
+import StudentResult  from './pages/StudentResult';
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
         <Route path='/questionsolving' element={<QuestionsSolving />} />
         <Route path='/QuestionSetting' element={<QuestionSetting />} />
         <Route path='/displayresult' element={<DisplayResult />} />
-        <Route path="/exam-results" element={<ExamResults />} />
+        <Route path="/StudentResult" element={<StudentResult/>} />
 
         {/* Private routes for teachers */}
         <Route element={<PrivateRouteTeacher />}>

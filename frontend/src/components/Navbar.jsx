@@ -38,7 +38,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-primaryBg border-b border-borderColor">
+        <nav className="bg-black border-borderColor">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link className="flex items-center space-x-3 rtl:space-x-reverse" to="/">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
@@ -53,7 +53,7 @@ const Navbar = () => {
                     </button>
                 </Button>
                 <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-                    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-borderColor rounded-lg bg-primaryBg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                    <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-borderColor rounded-lg bg-black md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                         {currentUser ? (
                             <li>
                                 <span className="block py-2 px-3 text-primaryText">
@@ -63,12 +63,12 @@ const Navbar = () => {
                         ) : (
                             <>
                                 <li>
-                                    <Button onClick={() => navigate('/studentlogin')} className="block py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-buttonBg md:p-0">
+                                    <Button onClick={() => navigate('/studentlogin')} className="block py-2 px-4 w-32 bg-white text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0">
                                         Student Login
                                     </Button>
                                 </li>
                                 <li>
-                                    <Button onClick={() => navigate('/adminlogin')} className="block py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-buttonBg md:p-0">
+                                    <Button onClick={() => navigate('/adminlogin')} className="block py-2 px-4 w-32 bg-white text-buttonText rounded-full hover:bg-borderColor md:hover:bg-transparent md:border-0 md:hover:text-white md:p-0">
                                         Admin Login
                                     </Button>
                                 </li>
@@ -79,11 +79,11 @@ const Navbar = () => {
                 {currentUser && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button className="ml-3 py-2 px-4 w-32 bg-buttonBg text-buttonText rounded-full">
+                            <Button className="ml-3 py-2 px-4 w-32 bg-black text-buttonText rounded-full text-white">
                                 Menu
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent className="bg-primaryBg text-primaryText mt-2 rounded-lg shadow-lg w-32">
+                        <DropdownMenuContent className="bg-black text-primaryText mt-2 rounded-lg shadow-lg w-32">
                             <DropdownMenuItem className="hover:bg-buttonBg hover:text-buttonText rounded-t-lg">
                                 <Link to='/profile' className="block py-2 px-4">Profile</Link>
                             </DropdownMenuItem>

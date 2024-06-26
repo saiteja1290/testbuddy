@@ -56,7 +56,7 @@ const AdminSignup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
-                  className="bg-borderColor text-primaryText border border-buttonBg focus:ring-2 focus:ring-buttonBg"
+                  className="bg-borderColor text-primaryText border border-button focus:ring-2 focus:ring-buttonBg"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -69,7 +69,7 @@ const AdminSignup = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter the Password"
-                  className="bg-borderColor text-primaryText border border-buttonBg focus:ring-2 focus:ring-buttonBg"
+                  className="bg-borderColor text-primaryText border border-button focus:ring-2 focus:ring-buttonBg"
                 />
               </div>
             </div>
@@ -79,7 +79,7 @@ const AdminSignup = () => {
               </div>
             )}
             <div className="flex flex-col items-center mt-4">
-              <Button type="submit" className="bg-buttonBg text-buttonText">Sign Up</Button>
+              <Button type="submit" className="bg-buttonBg text-buttonText border boarder-[#2727A] hover:bg-black hover:text-white">Sign Up</Button>
             </div>
           </form>
         </CardContent>
@@ -87,7 +87,7 @@ const AdminSignup = () => {
           <div className='flex gap-2 mt-0'>
             <p>Have an account?</p>
             <Link to={'/adminlogin'}>
-              <span className='text-buttonBg'>Sign in</span>
+              <span className='text-buttonBg hover:text-green-600 transition duration-300 transform hover:scale-110'>Sign in</span>
             </Link>
           </div>
         </CardFooter>

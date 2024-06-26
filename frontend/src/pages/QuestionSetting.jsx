@@ -59,8 +59,8 @@ const QuestionSetting = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#2D3748] p-6 text-[#E2E8F0]">
-      <Card className="bg-[#4A5568] text-[#E2E8F0] max-w-4xl w-full">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#010101] p-6 text-[#E2E8F0]">
+      <Card className="bg-[#1b1c1c] text-[#E2E8F0] max-w-4xl w-full">
         <CardHeader>
           <CardTitle className="text-2xl font-bold mb-6 text-center">Create Questions for Room</CardTitle>
         </CardHeader>
@@ -72,7 +72,7 @@ const QuestionSetting = () => {
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
               placeholder="Enter Room ID..."
-              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -83,7 +83,7 @@ const QuestionSetting = () => {
               value={numQuestions}
               onChange={(e) => setNumQuestions(Number(e.target.value))}
               placeholder="Enter number of questions..."
-              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -94,7 +94,7 @@ const QuestionSetting = () => {
               value={studentQuestions}
               onChange={(e) => setStudentQuestions(Number(e.target.value))}
               placeholder="Enter number of questions per student..."
-              className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+              className="bg-[#222428] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
             />
           </div>
           <div className="mb-6">
@@ -113,7 +113,7 @@ const QuestionSetting = () => {
                     value={question.questionText}
                     onChange={(e) => handleInputChange(questionIndex, 'questionText', e.target.value)}
                     placeholder={`Enter question ${questionIndex + 1}...`}
-                    className="bg-[#2D3748] text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
+                    className="bg-[#222428]s text-[#E2E8F0] border-[#4A5568] focus:ring-2 focus:ring-[#63B3ED] w-full"
                   />
                 </div>
                 <div className="mb-4">

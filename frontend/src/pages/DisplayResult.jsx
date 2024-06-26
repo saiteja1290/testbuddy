@@ -14,14 +14,14 @@ const DisplayResult = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-100 p-8">
+        <div className="min-h-screen flex flex-col bg-black p-8">
             <div className="flex justify-center mb-8">
                 <input
                     type="text"
                     placeholder="Enter Room ID"
                     value={roomID}
                     onChange={(e) => setRoomID(e.target.value)}
-                    className="p-2 border border-gray-300 rounded"
+                    className="p-2 border  rounded bg-[#27272a] text-white"
                 />
                 <button
                     onClick={handleFetchLeaderboard}
@@ -33,7 +33,7 @@ const DisplayResult = () => {
 
             {leaderboard.length > 0 && (
                 <div className="overflow-x-auto">
-                    <table className="min-w-full bg-white border border-gray-300">
+                    <table className="min-w-full bg-[#3e3c3c77] border-gray-300">
                         <thead>
                             <tr>
                                 <th className="py-2 px-4 border-b">Roll Number</th>
