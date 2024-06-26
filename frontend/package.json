@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "codemirror": "^5.65.16",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.396.0",
     "react": "^18.2.0",
     "react-codemirror2": "^8.0.0",

@@ -33,7 +33,7 @@ app.use("/api/user", router);
 app.get("/api/question", sample_question);
 
 // Route to compile and run code
-app.post("/compilecode", compilethecode);
+app.post("/api/user/compilecode", compilethecode);
 
 // Route to get full statistics of the compiler
 app.get("/fullStat", fullstat_controller);
