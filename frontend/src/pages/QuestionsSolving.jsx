@@ -20,7 +20,7 @@ const QuestionSolving = () => {
   const navigate = useNavigate();
 
   const handleFetchQuestions = () => {
-    axios.get(`http://localhost:8080/api/user/questions/${roomID}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/questions/${roomID}`)
       .then(response => {
         setQuestions(response.data.questions);
         setQuestionsFetched(true); // Set to true when questions are fetched
@@ -36,7 +36,7 @@ const QuestionSolving = () => {
       action: 'run',
     };
 
-    axios.post('http://localhost:8080/compilecode', requestData)
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/compilecode`, requestData)
       .then(response => {
         setOutput(prevOutput => ({
           ...prevOutput,
@@ -57,7 +57,7 @@ const QuestionSolving = () => {
       action: 'submit',
     };
 
-    axios.post('http://localhost:8080/compilecode', requestData)
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/compilecode`, requestData)
       .then(response => {
         const results = response.data.results;
         const formattedOutput = results.map((result, index) =>
@@ -84,7 +84,7 @@ const QuestionSolving = () => {
         action: 'submit',
       };
 
-      return axios.post('http://localhost:8080/compilecode', requestData)
+      return axios.post(`${import.meta.env.VITE_API_BASE_URL}/compilecode`, requestData)
         .then(response => {
           const passedTestCases = response.data.results.filter(result => result.passed).length;
           const questionMarks = passedTestCases; // Each question is worth 5 marks
@@ -97,7 +97,7 @@ const QuestionSolving = () => {
     Promise.all(results)
       .then(allResults => {
         // Save results to the database with timestamp
-        axios.post('http://localhost:8080/api/user/saveresults', {
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/saveresults`, {
           roomId: roomID,
           rollnumber: rollnumber,
           totalmarks: totalMarks,

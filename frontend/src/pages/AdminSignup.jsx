@@ -23,7 +23,7 @@ const AdminSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/user/adminsignup', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/adminsignup`, {
         email,
         password
       });

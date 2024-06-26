@@ -44,7 +44,7 @@ const QuestionSetting = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/user/questions', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/questions`, {
         roomId,
         numQuestions,
         studentQuestions,
@@ -56,7 +56,7 @@ const QuestionSetting = () => {
       console.error(error);
       alert('An error occurred while creating the exam');
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#010101] p-6 text-[#E2E8F0]">
