@@ -16,7 +16,7 @@ const QuestionSolving = () => {
   const [code, setCode] = useState({});
   const [output, setOutput] = useState({});
   const [lang, setLang] = useState('Python');
-  const [questionsFetched, setQuestionsFetched] = useState(false); // New state to track if questions are fetched
+  const [questionsFetched, setQuestionsFetched] = useState(false); // State to track if questions are fetched
   const navigate = useNavigate();
 
   const handleFetchQuestions = () => {
@@ -133,12 +133,14 @@ const QuestionSolving = () => {
           onChange={(e) => setRollNumber(e.target.value)}
           className="p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA] ml-4"
         />
-        <button
-          onClick={handleFetchQuestions}
-          className="ml-4 py-2 px-4 bg-white text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white border border-grey-300"
-        >
-          Fetch Questions
-        </button>
+        {!questionsFetched && ( // Conditionally render the button
+          <button
+            onClick={handleFetchQuestions}
+            className="ml-4 py-2 px-4 bg-white text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white border border-grey-300"
+          >
+            Fetch Questions
+          </button>
+        )}
       </div>
 
       {questions.map((question) => (
@@ -212,9 +214,9 @@ const QuestionSolving = () => {
             <h3 className="text-xl font-semibold text-white mb-2">Output:</h3>
             <pre className="whitespace-pre-wrap text-[#FAFAFA] code-output">{output[question._id]}</pre>
           </div>
-          
+
         </div>
-        
+
       ))}
       {questionsFetched && ( // Only show the button if questions have been fetched
         <div className="flex justify-center mt-4">

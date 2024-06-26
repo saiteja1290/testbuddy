@@ -4,10 +4,10 @@ import { useDispatch } from 'react-redux';
 import { signOut } from '../redux/userSlice';
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
@@ -41,7 +41,6 @@ const Navbar = () => {
         <nav className="bg-black border-borderColor">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link className="flex items-center space-x-3 rtl:space-x-reverse" to="/">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap text-primaryText">TestBuddy</span>
                 </Link>
                 <Button asChild>

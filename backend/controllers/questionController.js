@@ -78,7 +78,14 @@ export const getQuestionsByRoomId = async (req, res) => {
         .status(404)
         .json({ message: "No exam found with the provided room ID" });
     }
-    res.status(200).json({ questions: exam.questions });
+
+    // Shuffle and select a subset of questions based on studentQuestions
+    const allQuestions = exam.questions;
+    const studentQuestions = exam.studentQuestions;
+    const shuffledQuestions = allQuestions.sort(() => 0.5 - Math.random());
+    const selectedQuestions = shuffledQuestions.slice(0, studentQuestions);
+
+    res.status(200).json({ questions: selectedQuestions });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
