@@ -16,14 +16,14 @@ const QuestionSolving = () => {
   const [code, setCode] = useState({});
   const [output, setOutput] = useState({});
   const [lang, setLang] = useState('Python');
-  const [questionsFetched, setQuestionsFetched] = useState(false); // State to track if questions are fetched
+  const [questionsFetched, setQuestionsFetched] = useState(false);
   const navigate = useNavigate();
 
   const handleFetchQuestions = () => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/questions/${roomID}`)
       .then(response => {
         setQuestions(response.data.questions);
-        setQuestionsFetched(true); // Set to true when questions are fetched
+        setQuestionsFetched(true);
       })
       .catch(error => console.error('Error fetching questions:', error));
   };
@@ -31,8 +31,8 @@ const QuestionSolving = () => {
   const handleRunCode = (questionId) => {
     const requestData = {
       code: code[questionId] || '',
-      lang,
-      input: userTestCases[questionId] || questions.find(q => q._id === questionId).testCases[0].input || '',
+      lang: lang.toLowerCase(),
+      input: userTestCases[questionId] || questions.find(q => q._id === questionId).testCases[0]?.input || '',
       action: 'run',
     };
 
@@ -52,7 +52,7 @@ const QuestionSolving = () => {
   const handleSubmitCode = (questionId) => {
     const requestData = {
       code: code[questionId] || '',
-      lang,
+      lang: lang.toLowerCase(),
       testCases: questions.find(q => q._id === questionId).testCases,
       action: 'submit',
     };
@@ -79,7 +79,7 @@ const QuestionSolving = () => {
     const results = questions.map(question => {
       const requestData = {
         code: code[question._id] || '',
-        lang,
+        lang: lang.toLowerCase(),
         testCases: question.testCases,
         action: 'submit',
       };
@@ -96,7 +96,6 @@ const QuestionSolving = () => {
 
     Promise.all(results)
       .then(allResults => {
-        // Save results to the database with timestamp
         axios.post(`${import.meta.env.VITE_API_BASE_URL}/saveresults`, {
           roomId: roomID,
           rollnumber: rollnumber,
@@ -133,7 +132,7 @@ const QuestionSolving = () => {
           onChange={(e) => setRollNumber(e.target.value)}
           className="p-2 border border-[#686868] rounded bg-[#292929] text-[#FAFAFA] ml-4"
         />
-        {!questionsFetched && ( // Conditionally render the button
+        {!questionsFetched && (
           <button
             onClick={handleFetchQuestions}
             className="ml-4 py-2 px-4 bg-white text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white border border-grey-300"
@@ -161,6 +160,7 @@ const QuestionSolving = () => {
               <option value="C">C</option>
               <option value="Java">Java</option>
               <option value="Python">Python</option>
+              <option value="NodeJS">NodeJS</option>
             </select>
           </div>
 
@@ -203,7 +203,7 @@ const QuestionSolving = () => {
               Run Code
             </button>
             <button
-              className="py-2 px-4 bg-white text-[#1E1E1E] rounded-lg  hover:bg-black hover:text-white border border-grey-300"
+              className="py-2 px-4 bg-white text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white border border-grey-300"
               onClick={() => handleSubmitCode(question._id)}
             >
               Submit Code
@@ -216,9 +216,9 @@ const QuestionSolving = () => {
           </div>
 
         </div>
-
       ))}
-      {questionsFetched && ( // Only show the button if questions have been fetched
+
+      {questionsFetched && (
         <div className="flex justify-center mt-4">
           <button
             className="py-2 px-4 bg-white item-center text-[#1E1E1E] rounded-lg hover:bg-black hover:text-white self-center mb-8 border border-grey-300"
