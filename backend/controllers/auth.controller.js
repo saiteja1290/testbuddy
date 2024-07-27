@@ -71,11 +71,6 @@ export const stundetsignup = async (req, res) => {
 
   try {
     // Validate roll number length
-    if (rollnumber.length !== 12) {
-      return res
-        .status(400)
-        .json({ error: "Roll number must be exactly 12 characters long" });
-    }
 
     // Check if a student with the provided roll number already exists
     const existingStudent = await StudentUser.findOne({ rollnumber });
