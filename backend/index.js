@@ -21,7 +21,8 @@ app.use(cors());
 app.get("/", (req, res) => {
   return res.status(200).send("Welcome to MERN stack Project");
 });
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
+
 // Auth routes
 app.use("/api/user", router);
 
