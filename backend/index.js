@@ -16,7 +16,13 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://testbuddy-frontend.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   return res.status(200).send("Welcome to MERN stack Project");
