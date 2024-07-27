@@ -17,7 +17,7 @@ const ExamResults = () => {
 
     setLoading(true); // Set loading to true when the fetch starts
 
-    axios.get(`${import.meta.env.VITE_API_BASE_URL}/leaderboard/${roomId}/${rollNumber}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}api/user/leaderboard/${roomId}/${rollNumber}`)
       .then(response => {
         setResultData(response.data.results);
         setLoading(false); // Set loading to false when the fetch is complete

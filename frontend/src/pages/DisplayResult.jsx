@@ -6,7 +6,7 @@ const DisplayResult = () => {
     const [leaderboard, setLeaderboard] = useState([]);
 
     const handleFetchLeaderboard = () => {
-        axios.get(`${import.meta.env.VITE_API_BASE_URL}/leaderboard/${roomID}`)
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}api/user/leaderboard/${roomID}`)
             .then(response => {
                 setLeaderboard(response.data.results);
             })
