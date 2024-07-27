@@ -83,9 +83,6 @@ const Navbar = () => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="bg-black text-primaryText mt-2 rounded-lg shadow-lg w-32">
-                            <DropdownMenuItem className="hover:bg-buttonBg hover:text-buttonText rounded-t-lg">
-                                <Link to='/profile' className="block py-2 px-4">Profile</Link>
-                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={handleLogout} className="hover:bg-buttonBg hover:text-buttonText rounded-b-lg">
                                 <span className="block py-2 px-4">Logout</span>
                             </DropdownMenuItem>
