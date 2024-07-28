@@ -164,7 +164,7 @@ const QuestionSolving = () => {
             </select>
           </div>
 
-          <div className="code-mirror-wrapper mb-4" style={{ height: '600px' }}>
+          <div className="code-mirror-wrapper mb-4" style={{ height: '900px' }}>
             <ControlledEditor
               onBeforeChange={(editor, data, value) => {
                 setCode(prevCode => ({
