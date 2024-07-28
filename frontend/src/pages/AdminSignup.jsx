@@ -89,7 +89,7 @@ const AdminSignup = () => {
             <p>Have an account?</p>
             <Link to={'/adminlogin'}>
               <span className="inline-block font-semibold text-blue-500 hover:text-blue-700 transition duration-300">
-                Sign Up
+                Sign In
               </span>
             </Link>
           </div>
