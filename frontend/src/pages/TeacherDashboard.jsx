@@ -23,11 +23,7 @@ const TeacherDashboard = () => {
                                 View Results
                             </Button>
                         </Link>
-                        <Link to="/Assignments" className="block w-full">
-                            <Button className="w-full py-4 px-6 bg-buttonBg text-buttonText rounded-lg hover:bg-buttonBg hover:text-primaryBg focus:outline-none focus:ring-2 focus:ring-buttonBg focus:ring-opacity-50">
-                                Assignments
-                            </Button>
-                        </Link>
+                       
                     </div>
                 </CardContent>
             </Card>

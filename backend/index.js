@@ -4,7 +4,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import router from "./routes/auth.route.js";
 import bodyParser from "body-parser";
-import { init, flush } from "compilex";
 import {
   compilethecode,
   fullstat_controller,
@@ -17,15 +16,19 @@ const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
-
-const option = { stats: true };
-init(option);
+app.use(
+  cors({
+    origin: ["https://testbuddy-frontend.vercel.app"],
+    methods: ["POST", "GET"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   return res.status(200).send("Welcome to MERN stack Project");
 });
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8080;
+
 // Auth routes
 app.use("/api/user", router);
 
@@ -51,7 +54,4 @@ mongoose
     console.log(error);
   });
 
-// Flush all the temporary files
-flush(() => {
-  console.log("All temporary files flushed!");
-});
+// No need to flush temporary files as `compilex` is no longer used

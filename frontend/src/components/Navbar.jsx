@@ -41,7 +41,6 @@ const Navbar = () => {
         <nav className="bg-black border-borderColor">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link className="flex items-center space-x-3 rtl:space-x-reverse" to="/">
-                    <img src="one.svg" className="h-8" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap text-primaryText">TestBuddy</span>
                 </Link>
                 <Button asChild>
@@ -84,9 +83,6 @@ const Navbar = () => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="bg-black text-primaryText mt-2 rounded-lg shadow-lg w-32">
-                            <DropdownMenuItem className="hover:bg-buttonBg hover:text-buttonText rounded-t-lg">
-                                <Link to='/profile' className="block py-2 px-4">Profile</Link>
-                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={handleLogout} className="hover:bg-buttonBg hover:text-buttonText rounded-b-lg">
                                 <span className="block py-2 px-4">Logout</span>
                             </DropdownMenuItem>

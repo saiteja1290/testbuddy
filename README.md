@@ -11,7 +11,7 @@ To run this project locally:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/saiteja1290/testbuddy.git
+    git clone https://github.com/yogireddy21/testbuddy
     cd testbuddy
     ```
 
@@ -85,4 +85,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any questions or feedback, feel free to reach out to us at [saiteja.palegar@gmail.com].
+For any questions or feedback, feel free to reach out to us at [yogeswarreddyrachamallu@gmail.com].

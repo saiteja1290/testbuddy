@@ -23,7 +23,7 @@ const StudentSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/studentsignup`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/user/studentsignup`, {
         rollnumber,
         password
       });
@@ -88,7 +88,7 @@ const StudentSignup = () => {
             <p>Have an account?</p>
             <Link to={'/studentlogin'}>
               <span className="inline-block font-semibold text-blue-500 hover:text-blue-700 transition duration-300">
-                Sign Up
+                Sign In
               </span>
             </Link>
           </div>

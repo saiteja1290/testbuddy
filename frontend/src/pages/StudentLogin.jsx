@@ -23,7 +23,7 @@ const StudentLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/studentsignin`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/user/studentsignin`, {
         rollnumber: rollNumber,
         password
       });

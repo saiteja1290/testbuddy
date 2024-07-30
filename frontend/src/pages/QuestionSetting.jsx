@@ -44,7 +44,7 @@ const QuestionSetting = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/questions`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}api/user/questions`, {
         roomId,
         numQuestions,
         studentQuestions,

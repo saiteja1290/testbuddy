@@ -1,14 +1,7 @@
-import {
-  init,
-  compileCPP,
-  compileCPPWithInput,
-  compileJava,
-  compileJavaWithInput,
-  compilePython,
-  compilePythonWithInput,
-  fullStat,
-} from "compilex";
+import axios from "axios";
+import qs from "qs";
 
+// Function to fetch sample question
 export const sample_question = async (req, res) => {
   const questionData = {
     question:
@@ -22,69 +15,89 @@ export const sample_question = async (req, res) => {
   res.json(questionData);
 };
 
-export const compilethecode = (req, res) => {
+// Function to handle code compilation and execution
+export const compilethecode = async (req, res) => {
   const { code, lang, input, testCases, action } = req.body;
 
-  let envData = { OS: "windows" };
-
-  console.log(`Received code: ${code}`);
-  console.log(`Language: ${lang}`);
-  console.log(`Input: ${input}`);
-  console.log(`Action: ${action}`);
-
-  const callback = (data) => {
-    console.log(`Compiler response: ${JSON.stringify(data)}`);
-    res.send(data.error ? { error: data.error } : { output: data.output });
+  //kokooko
+  // Language mapping as per the CodeX API
+  const languageMap = {
+    Java: "java",
+    Python: "py",
   };
 
-  if (lang === "Python") {
+  const languagePayload = languageMap[lang] || "py"; // Default to Python if language not found
+
+  const requestData = qs.stringify({
+    code: code,
+    language: languagePayload,
+    input: input || "",
+  });
+
+  const config = {
+    method: "post",
+    url: "https://api.codex.jaagrav.in",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: requestData,
+  };
+
+  try {
     if (action === "run") {
-      // Run code with single input
-      if (input) {
-        compilePythonWithInput(envData, code, input, callback);
-      } else {
-        compilePython(envData, code, callback);
-      }
+      const response = await axios(config);
+      res.json({
+        output: response.data.output || `Error: ${response.data.error}`,
+      });
     } else if (action === "submit") {
       // Submit code and check against all test cases
-      let results = [];
-      let testCaseIndex = 0;
-
-      const processTestCase = () => {
-        if (testCaseIndex < testCases.length) {
-          const { input, expectedOutput } = testCases[testCaseIndex];
-          compilePythonWithInput(envData, code, input, (data) => {
-            if (data.error) {
-              results.push({
-                input,
-                expectedOutput,
-                actualOutput: data.error,
-                passed: false,
-              });
-            } else {
-              const actualOutput = data.output.trim();
-              results.push({
-                input,
-                expectedOutput,
-                actualOutput,
-                passed: actualOutput === expectedOutput.trim(),
-              });
-            }
-            testCaseIndex++;
-            processTestCase();
+      const results = await Promise.all(
+        testCases.map(async (testCase) => {
+          const testCaseData = qs.stringify({
+            code: code,
+            language: languagePayload,
+            input: testCase.input,
           });
-        } else {
-          res.send({ results });
-        }
-      };
 
-      processTestCase();
+          const testCaseConfig = {
+            method: "post",
+            url: "https://api.codex.jaagrav.in",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            data: testCaseData,
+          };
+
+          try {
+            const tcResponse = await axios(testCaseConfig);
+            const actualOutput = tcResponse.data.output.trim();
+            return {
+              input: testCase.input,
+              expectedOutput: testCase.expectedOutput,
+              actualOutput,
+              passed: actualOutput === testCase.expectedOutput.trim(),
+            };
+          } catch (error) {
+            return {
+              input: testCase.input,
+              expectedOutput: testCase.expectedOutput,
+              actualOutput: `Error: ${error.message}`,
+              passed: false,
+            };
+          }
+        })
+      );
+
+      res.json({ results });
     }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
+// Function to get full statistics (if applicable)
 export const fullstat_controller = (req, res) => {
-  fullStat((data) => {
-    res.send(data);
-  });
+  res
+    .status(501)
+    .send("Full statistics functionality not available with CodeX API.");
 };
