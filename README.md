@@ -82,7 +82,3 @@ We welcome contributions from the community! If you have ideas or suggestions, p
 ## License
 
 This project is licensed under the MIT License.
-
-## Contact
-
-For any questions or feedback, feel free to reach out to us at [yogeswarreddyrachamallu@gmail.com].
